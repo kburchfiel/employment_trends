@@ -4,6 +4,8 @@ By Ken Burchfiel
 
 Released under the MIT License
 
+*Note: I did not use generative-AI tools within this project.*
+
 The simple dashboard created by this code (available at http://kburchfiel.github.io/employment_trends/occ_dashboard.html) shows estimated United States employment totals, by year and month, for hundreds of occupations. <span style=color:red><b>Due to low sample sizes for many occupations, these results should be interpreted with caution.<b></style>
 
 To create this dashboard, I first imported IPUMS CPS data (see below) into Python; created a pivot table that shows employment counts by year and month; and saved the table as a .txt file. I then copied and pasted this table into the code for my HTML page (occ_dashboard.html).
