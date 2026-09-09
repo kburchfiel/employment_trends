@@ -3,3 +3,8 @@ employment_by_occupation_age_and_month.json
 .jupyter
 datasets/employment_by_occupation_and_month.json
 employment_by_occupation_and_month.json
+Older_Files/*
+Datasets/Older_Versions/*
+older_period_entry_datasets/*
+pandas_period_datasets/*
+svy_period_entry_datasets/*
