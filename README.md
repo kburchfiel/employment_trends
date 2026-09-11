@@ -1,4 +1,4 @@
-## Employment Trends Dashboards [Work in progress]
+## Employment Trends Dashboard [Work in progress]
 
 By Ken Burchfiel
 
@@ -6,18 +6,11 @@ Released under the MIT License
 
 *Note: I did not use generative-AI tools within this project.*
 
-This repository contains two interactive dashboards:
+* This repository contains the **Employment Trends Dashboard** (available at http://kburchfiel.github.io/employment_trends/occ_dashboard.html), which shows estimated United States employment totals, by a user-selected interval (year, half-year, quarter, or month) for hundreds of occupations. It's also possible to view employment totals by age range.
 
-* The **Employment Trends Dashboard** (available at http://kburchfiel.github.io/employment_trends/occ_dashboard.html) shows estimated United States employment totals, by a user-selected interval (year, half-year, quarter, or month) for hundreds of occupations. 
+<p style=color:red><b>Due to low sample sizes for many occupations, the results in this dashboard should be interpreted with caution.</b></style>
 
-* The **Employment Trends by Age Dashboard** (available at http://kburchfiel.github.io/employment_trends/occ_by_age_range_dashboard.html) is similar, except that it shows estimated totals *by age range* for occupations with a recent estimated employment of at least 1 million.
-
-<p style=color:red><b>Due to low sample sizes for many occupations, the results in these dashboards should be interpreted with caution.</b></style>
-
-
-To create these dashboard, I first imported IPUMS CPS data (see below) into Python; created pivot tables that store monthly employment totals (either by age range or by all ages together); and saved these tables as .txt files. I then copied and pasted these tables into the code for my HTML pages (occ_dashboard.html and occ_by_age_range_dashboard.html).
-
-When a user selects an occupation of interest, Danfo.js code within the HTML file filters the underlying dataset to show only rows for that occupation. Next, Plotly.js code is called to create a line chart that shows trends for this occupation.
+To create this dashboard dashboard, I first imported IPUMS CPS data (see below) into Python; created pivot tables that store monthly employment totals (either by age range or by all ages together); and saved these tables into the same .csv file. I then copied and pasted this CSV data into a standalone JavaScript file (csv_data.js) which then gets imported by my dashboard's main HTML file.
 
 ### Data source
 
