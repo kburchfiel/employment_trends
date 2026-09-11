@@ -29,16 +29,14 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 ### To-Dos
 
-* Replace Danfo.js code with D3-array code. (This will also involve importing your data in CSV format; see Python dataset-generation code within your county growth dashboard project for reference. That project will also be a useful reference for adding D3-array code into your employment-trends dashboards.)
+* Round values within exported unemployment CSV files to two decimal digits. This should reduce your file sizes by a decent amount.
 
-    * Since these CSV files will be pretty large, you may also want to figure out a way to easily import them into JavaScript. One option might be to just paste in the CSV file using starting and ending quotes, as shown here: https://www.freecodecamp.org/news/javascript-multiline-string-how-to-create-multi-line-strings-in-js/ (See the How to Create Multiline Strings with Template Literals in JavaScript section)
+* Add a search box to your occupation dropdown list to make it easier to find certain occupations. (See https://stackoverflow.com/questions/14148538/multiple-selections-with-datalist for reference.)
 
-* Round values within exported CSV files to integers (for employment totals) and to two decimal digits (for unemployment rates). This should reduce your file sizes by a decent amount.
+* Find a way to hide occupations that don't meet the 'large occupation' threshold when age range is selected, thus preventing users from choosing options for which we don't have any data.
 
-* Allow multiple occupations to be compared within the same chart by converting your occupation-selection-menu to one that allows multiple items to be selected. (This would be feasible with D3-array/vanilla array code, but probably not within Danfo.js, since the .query() method doesn't have an 'in' or 'isin' option.)
+* See if there's a way to show age ranges as colors and occupations as different line formats (or vice versa).
 
 * Update your sample-generation code to incorporate PSUs and strata, thus allowing for more accurate confidence intervals. See [this thread](https://forum.ipums.org/t/calculating-standard-errors-using-cps-basic-monthly-microdata/6408/6) for reference.
 
-* If your CSV files end up being small enough: Consider merging your overall and age-specific employment-totals dashboards into the same dashboard. You could have an age-selector menu with 'All' or 'By age range' options that would let users view employment totals by age brackets or by everyone together. (When 'By age range' is selected, only the first occupation within the dropdown menu would be used.)
-
-* Build out your unemployment-rates dashboard, but keep an eye on confidence intervals also.
+* Consider adding unemployment data into your dashboard as well--as long as the files aren't too large. This will involve (1) adding the data to your existing CSV file (probably via a horizontal merge), and (2) adding a metric-selection option.
