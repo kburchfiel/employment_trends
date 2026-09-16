@@ -46,9 +46,9 @@ came from https://getbootstrap.com/docs/5.2/getting-started/introduction/ -->
             </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-md-3">
-                <label>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="interval">
                     <b>Interval</b>:
                 </label>
                 <select class="form-select" id="interval">
@@ -64,15 +64,25 @@ came from https://getbootstrap.com/docs/5.2/getting-started/introduction/ -->
 
             <!-- The following code is based on
              https://getbootstrap.com/docs/5.0/forms/checks-radios/#checks . -->
-            <!-- <div class="col-md-3">
+            <!--
+             <div class="col-md-2 mt-md-4 mt-2">
             <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="ci_checkbox">
             <label class="form-check-label" for="flexCheckDefault">
                 <b>Show CIs (LIKELY TOO NARROW; TO BE REVISED)</b>
             </label>
             </div>
-        -->
-            <div class="col-md-3">
+        </div> -->
+
+            <!-- The mt-md-4 addition moves this checkbox down so that
+            it aligns better with the select menu to the left. 
+            On smaller devices, however, this alignment won't be
+            necessary (since the dropdown will now be above this
+            item), so we can shrink it down to mt-2, thus saving a little 
+            screen space.
+            (Based on
+            https://stackoverflow.com/a/64822312/13097194 )-->
+            <div class="col-md-3 mt-md-4 mt-2">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="age_range_checkbox">
                     <label class="form-check-label" for="flexCheckDefault">
@@ -80,13 +90,24 @@ came from https://getbootstrap.com/docs/5.2/getting-started/introduction/ -->
                     </label>
                 </div>
             </div>
-            <div class="col-md-3">
-                <!-- To do: Replace this with a button, since there's 
-                no need to leave it checked. -->
+
+            <div class="col-md-3 mt-md-4 mt-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="expand-occ-list">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        <b>Expand occupation list</b>
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col-md-2 mt-md-4 mt-2">
+                <!-- To do: Consider replacing this with a button, 
+                since there's no need to leave it checked. -->
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="clear_occupations_checkbox">
                     <label class="form-check-label" for="flexCheckDefault">
-                        <b>Clear all occupations</b>
+                        <b>Clear occupations</b>
                     </label>
                 </div>
             </div>
@@ -94,7 +115,7 @@ came from https://getbootstrap.com/docs/5.2/getting-started/introduction/ -->
 
         </div>
 
-          <!-- mt-2 allows for more separation between the occupation
+        <!-- mt-2 allows for more separation between the occupation
 selection menu and the chart's title. See:
 https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
 
@@ -109,16 +130,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
                     <select class="form-select" multiple size=1 id="occ"></select>
                 </label>
             </div>
-
-        <div class="col-md-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="expand-occ-list">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        <b>Expand occupation list</b>
-                    </label>
-                </div>
-            </div>
-
         </div>
 
         <div class="row mt-5">
@@ -129,10 +140,8 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
             </div>
         </div>
 
-        <div class="row mt-5">
+        <div class="row">
             <div class="text-center">
-                <!-- Source for text-center:
-     https://getbootstrap.com/docs/5.0/utilities/text/ -->
                 <h2 id="trend_chart_title"></h2>
             </div>
         </div>
@@ -336,27 +345,83 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
         // Selecting the first entry by default:
         occElement.options[0].selected = true;
 
-        occElement.addEventListener("change", update_chart);
-        intervalElement.addEventListener("change", update_chart);
+        occElement.addEventListener("change", () => {
+            warningElement.innerHTML = ""; // Now that the user
+            // has been notified of any occupations with missing age-range
+            // data, we can go ahead and clear out this message.
+            update_occupation_list();
+            update_chart();
+        });
+        intervalElement.addEventListener("change", () => {
+            warningElement.innerHTML = "";
+            update_chart;
+        });
         expandOccupationsElement.addEventListener(
-        "change", set_occ_list_size);
+            "change", set_occ_list_size);
         clearOccupationsElement.addEventListener(
             "change", () => {
                 clear_all_occupation_options();
-                update_chart()
+                occupation_array = []; // This array will also
+                // need to be cleared out. We could also have
+                // called update_occupation_list() here,
+                // but that would be less efficient.
+                smaller_occupations_to_retain = []; // All of the
+                // occupations in here will need to be removed
+                // as well.
+                warningElement.innerHTML = ""; // Now that all
+                // occupations have been removed, we no longer
+                // need to show a warning message about
+                // occupations with missing age-range data.
+
+                update_chart();
             });
         //ciCheckElement.addEventListener("change", update_chart);
         arCheckElement.addEventListener("change", () => {
             update_age_range_options();
+            update_occupation_list(); // Calling this function
+            // allows the occupation list to get synchronized
+            // with our new set of selected occupations (which
+            // may be smaller than the previous set if 
+            // the age-range comparison box just got checked.)
             update_chart();
         });
 
         function set_occ_list_size() {
-        if (expandOccupationsElement.checked == true) {
-        occElement.size = 8;
+            if (expandOccupationsElement.checked == true) {
+                occElement.size = 10;
+            }
+            else { occElement.size = 1; }
         }
-        else
-    {occElement.size = 1;}
+
+        function update_occupation_list() {
+            // This code used to be present within update_chart(), but 
+            // since it only needs to be called when certain elements
+            // are updated, I moved it to a separate function.
+
+            // The following code was based on the example by Bobby Hadz at
+            // https://bobbyhadz.com/blog/get-all-selected-values-of-multiple-select-using-javascript#get-all-selected-values-of-a-multiple-select-field-in-js
+
+            occupation_array = [];
+            // Determining which occupations have been selected:
+            //console.log("occElement options:", occElement.options)
+            //console.log("occElement options size:", occElement.options.length)
+            for (let i = 0; i < occElement.options.length; i++) {
+                if (occElement.options[i].selected == true) {
+                    occupation_array.push(occElement.options[i].value);
+                    // if (compare_by_age_range == true) // In this case, we'll
+                    // // only want to show one occupation so as not to 
+                    // // clutter the chart, so we'll end the loop here.
+                    // *Removed this as I'll now allow multiple
+                    // occupations to be displayed for multiple
+                    // age ranges; these occupations will be 
+                    // distinguished by different line types.)
+                    // { break; }
+                }
+            }
+
+
+            console.log("occupation_array:", occupation_array);
+
         }
 
 
@@ -473,13 +538,15 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
             // Letting the viewer know that age-range-specific data
             // wasn't available for certain metrics:
 
-            if ((smaller_occupations_to_retain.length > 0) & 
-            (arCheckElement.checked == true)) {
+            if ((smaller_occupations_to_retain.length > 0) &
+                (arCheckElement.checked == true)) {
                 let invalid_occupation_string = "Age-range-specific data is \
 not available for the following occupation(s):<br>";
-                for (let i = 0; i < smaller_occupations_to_retain.length; 
-                i++) { invalid_occupation_string += 
-                smaller_occupations_to_retain[i] + "<br>";}
+                for (let i = 0; i < smaller_occupations_to_retain.length;
+                    i++) {
+                        invalid_occupation_string +=
+                        smaller_occupations_to_retain[i] + "<br>";
+                }
                 //console.log(invalid_occupation_string);}
                 warningElement.innerHTML = invalid_occupation_string;
             }
@@ -503,36 +570,13 @@ not available for the following occupation(s):<br>";
         }
 
 
-        // Initializing the chart:
+        // Initializing the occupations list and chart:
+        update_occupation_list();
         update_chart();
 
         function update_chart() {
 
             let compare_by_age_range = arCheckElement.checked;
-
-            // The following code was based on the example by Bobby Hadz at
-            // https://bobbyhadz.com/blog/get-all-selected-values-of-multiple-select-using-javascript#get-all-selected-values-of-a-multiple-select-field-in-js
-
-            occupation_array = [];
-            // Determining which occupations have been selected:
-            //console.log("occElement options:", occElement.options)
-            //console.log("occElement options size:", occElement.options.length)
-            for (let i = 0; i < occElement.options.length; i++) {
-                if (occElement.options[i].selected == true) {
-                    occupation_array.push(occElement.options[i].value);
-                    // if (compare_by_age_range == true) // In this case, we'll
-                    // // only want to show one occupation so as not to 
-                    // // clutter the chart, so we'll end the loop here.
-                    // *Removed this as I'll now allow multiple
-                    // occupations to be displayed for multiple
-                    // age ranges; these occupations will be 
-                    // distinguished by different line types.)
-                    // { break; }
-                }
-            }
-
-
-            console.log("occupation_array:", occupation_array);
             let interval_selection = intervalElement.value;
 
             // Note that .value would *not* work here.
