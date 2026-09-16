@@ -152,7 +152,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-5">
             <div class="col">
                 <div id="caption">Source: <a href="https://cps.ipums.org/">Current
                         Population Survey data from IPUMS</a>.<br>This graph shows the
@@ -358,7 +358,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
         });
         expandOccupationsElement.addEventListener(
             "change", set_occ_list_size);
-            
+
         clearOccupationsElement.addEventListener(
             "change", () => {
                 clear_all_occupation_options();
@@ -795,7 +795,7 @@ Unweighted respondent count: %{text}<extra></extra>'};
                 xaxis_type_for_interval = "";
 
             let layout = {
-                height: 600,
+                height: 580,
                 showlegend: true,
                 // uirevision: 'true', 
                 // Allows the user's zoom settings to persist across
@@ -824,11 +824,11 @@ Unweighted respondent count: %{text}<extra></extra>'};
                     y: 1.35,
                     xanchor: 'center',
                     x: 0.5,
-                    maxheight: 120
+                    maxheight: 110
                 },
                 // Based on https://plotly.com/javascript/reference/layout/
 
-                margin: { t: 0, l: 0, r: 0, b: 0 },
+                margin: {t: 0},
 
                 xaxis: {
                     title: {
@@ -862,11 +862,6 @@ Unweighted respondent count: %{text}<extra></extra>'};
                 // our y-axis labels and the chart.
                 // (Based on https://stackoverflow.com/a/66736119/13097194)
 
-                // Narrowing the top margin allows our custom title to appear
-                // closer to the graph.
-                // (Based on
-                // https://plotly.com/javascript/line-charts/ )
-                margin: { t: 10 }
             }
 
             // The following settings (1) allow the chart to resize with content
