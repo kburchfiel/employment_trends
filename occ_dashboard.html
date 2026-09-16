@@ -354,10 +354,11 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
         });
         intervalElement.addEventListener("change", () => {
             warningElement.innerHTML = "";
-            update_chart;
+            update_chart();
         });
         expandOccupationsElement.addEventListener(
             "change", set_occ_list_size);
+            
         clearOccupationsElement.addEventListener(
             "change", () => {
                 clear_all_occupation_options();
