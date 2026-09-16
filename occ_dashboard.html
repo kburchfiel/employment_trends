@@ -41,25 +41,8 @@ came from https://getbootstrap.com/docs/5.2/getting-started/introduction/ -->
         https://getbootstrap.com/docs/4.0/layout/grid/ -->
     <div class="container">
         <div class="row">
-            <div class="col">
-                <h1>Employment Trends Dashboard</h1>
-            </div>
-        </div>
-
-        <!-- mt-2 allows for more separation between the occupation
-selection menu and the chart's title. See:
-https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
-
-        <div class="row mt-2">
-            <div class="col">
-                <!-- The following select element code is based on
-https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
-                <label>
-                    <b>Occupation</b>: <i>(Multiple occupations
-                        can be selected. An (L) prefix signifies that age-range data
-                        is available for that occupation.)</i>
-                    <select class="form-select" multiple size=8 id="occ"></select>
-                </label>
+            <div class="col" style="text-align:center">
+                <h3>Employment Trends Dashboard</h3>
             </div>
         </div>
 
@@ -108,6 +91,33 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
                 </div>
             </div>
 
+
+        </div>
+
+          <!-- mt-2 allows for more separation between the occupation
+selection menu and the chart's title. See:
+https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
+
+        <div class="row mt-2">
+            <div class="col">
+                <!-- The following select element code is based on
+https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
+                <label>
+                    <b>Occupation</b>: <i>(Multiple occupations
+                        can be selected. An (L) prefix signifies that age-range data
+                        is available for that occupation.)</i>
+                    <select class="form-select" multiple size=1 id="occ"></select>
+                </label>
+            </div>
+
+        <div class="col-md-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="expand-occ-list">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        <b>Expand occupation list</b>
+                    </label>
+                </div>
+            </div>
 
         </div>
 
@@ -315,7 +325,10 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
             "age_range_checkbox");
         const clearOccupationsElement = document.getElementById(
             "clear_occupations_checkbox");
+        const expandOccupationsElement = document.getElementById(
+            "expand-occ-list");
         let chart = document.getElementById('trend_chart');
+
 
         // Filling in the options list with a full set of occupations:
 
@@ -325,6 +338,8 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
 
         occElement.addEventListener("change", update_chart);
         intervalElement.addEventListener("change", update_chart);
+        expandOccupationsElement.addEventListener(
+        "change", set_occ_list_size);
         clearOccupationsElement.addEventListener(
             "change", () => {
                 clear_all_occupation_options();
@@ -335,6 +350,15 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event . -->
             update_age_range_options();
             update_chart();
         });
+
+        function set_occ_list_size() {
+        if (expandOccupationsElement.checked == true) {
+        occElement.size = 8;
+        }
+        else
+    {occElement.size = 1;}
+        }
+
 
         // When the age-range checkbox gets clicked, we should
         // remove smaller occupations from our list of options
