@@ -22,7 +22,7 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 ### To-Dos
 
-* Within your Python file, create a linear regression that determines which year/month pairs had statistically-significant differences in employment relative to the latest data (i.e. August 2026). Share updates on Reddit as needed.
+* Within your Python file, create a linear regression that determines which year/month pairs had statistically-significant differences in employment relative to the latest data (i.e. August 2026). Share updates on Reddit as needed. (And consult responses to https://forum.ipums.org/t/what-would-be-the-best-way-to-determine-whether-an-increase-in-total-employment-for-a-given-occupation-is-statistically-significant/7188 for guidance on what regression, test, etc. to use.)
 
 * Add a search box to your occupation dropdown list to make it easier to find certain occupations--or point individuals to the JavaScript file that contains these options. (See https://stackoverflow.com/questions/14148538/multiple-selections-with-datalist for reference.)
 
