@@ -4,7 +4,7 @@ By Ken Burchfiel
 
 Released under the CC-BY license
 
-*I did not use generative-AI tools for any part of this project, including my code, my visualizations, and this blog post.*
+*Note: I did not use generative-AI tools for any part of this project, including my code, my visualizations, and this blog post.*
 
 ## Introduction and methodology
 
@@ -68,7 +68,7 @@ In the coming days and weeks, I hope to add the following content to this blog p
 
 3. Results from the American Community Survey, which offers a much larger sample (and thus greater statistical power), but less recent data. (Currently, ACS data is only available through 2024.)
 
-In addition, I plan to use R-based libraries to check these statistics.**
+In addition, I plan to use R-based libraries to check these statistics.
 
 
 

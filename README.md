@@ -8,9 +8,11 @@ Released under the MIT License
 
 * This repository contains the **Employment Trends Dashboard** (available at http://kburchfiel.github.io/employment_trends/occ_dashboard.html), which shows estimated United States employment totals, by a user-selected interval (year, half-year, quarter, or month) for hundreds of occupations. It's also possible to view employment totals by age range for larger occupations and to display 95% confidence intervals (though I may need to tweak my method for generating these intervals; see to-do list for more details).
 
-<p style=color:red><b>Due to low sample sizes for many occupations, the results in this dashboard should be interpreted with caution.</b></style>
+<p style=color:red><b>Due to low sample sizes for many occupations, the results in this dashboard should be interpreted with caution.</b></p>
 
 To create this dashboard dashboard, I first imported IPUMS CPS data (see below) into Python; created pivot tables that store monthly employment totals (either by age range or by all ages together); and then exported these tables to JavaScript files that get read by the dashboard's main HTML file.
+
+[Click here](https://kburchfiel3.wordpress.com/2026/09/22/cps-data-indicates-that-us-software-developer-employment-has-increased-since-2022/) to read view a blog post that discusses findings related to software-developer employment.
 
 ### Data source
 
@@ -22,8 +24,9 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 ### To-Dos
 
+* Use R to spot-check findings in order to ensure that your code is working as expected.
 
-* Create nicer-looking PNG copies of the proportion- and totals-based charts that you'd like to incorporate into your blog post.
+* Check changes in proportions within svy-based Python code for statistical significance.
 
 * Use ACS1 data for recent years to:
 
@@ -35,12 +38,7 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
     Note: As part of these updates, repurpose your existing code for calculating totals and proportions to calculate replicate weights (i.e. by setting the 'method' argument as needed; see https://svylab.com/learn/notes/posts/svy-vs-r-comparison/#replication-based-estimation for guidance on both creating an ACS sample and on passing the correct parameters to your code.
 
-
-* If time allows: try creating similar analyses in R, using your own CSV copies of the IPUMS data, in order to double-check your findings.
-
 * Review relevant responses to  https://forum.ipums.org/t/calculating-standard-errors-using-cps-basic-monthly-microdata/6408/8 .
-
-* Create a blog post, along with relevant PNG copies of visualizations, that describes your findings.
 
 * Try to find a way to determine, via a regression analysis, whether differences in totals between two years were statistically significant. Share updates on Reddit as needed. (And consult responses to https://forum.ipums.org/t/what-would-be-the-best-way-to-determine-whether-an-increase-in-total-employment-for-a-given-occupation-is-statistically-significant/7188 for guidance on what regression, test, etc. to use.)
 
@@ -51,3 +49,5 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 * Figure out how to add thousands separators to confidence-interval data within tooltips.
 
 * Consider creating an HTML-based blog post, perhaps using a Jinja2 setup, that would allow interactive charts to appear alongside your text. (This could be hosted on the GitHub site for your project.)
+
+* Update your WordPress blog post as needed.
