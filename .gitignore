@@ -1,0 +1,15 @@
+employment_by_occupation_age_and_month.json
+.ipynb_checkpoints
+.jupyter
+datasets/employment_by_occupation_and_month.json
+employment_by_occupation_and_month.json
+Older_Files/*
+Datasets/Older_Versions/*
+older_period_entry_datasets/*
+pandas_period_datasets/*
+svy_period_entry_datasets/*
+Older_PD_Datasets/*
+__pycache__/survey_analysis_functions.cpython-313.pyc
+Datasets/full_ue_props.csv
+Datasets/full_emp_totals.csv
+Datasets/df_emp_totals_combined.txt
