@@ -51,3 +51,5 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 * Consider creating an HTML-based blog post, perhaps using a Jinja2 setup, that would allow interactive charts to appear alongside your text. (This could be hosted on the GitHub site for your project.)
 
 * Update your WordPress blog post as needed.
+
+* As an experiment, try exporting your Markdown blog post to HTML so that you can see whether it shows up correctly (e.g. with PNG images present) within your GitHub pages site. (Use pandoc for this task so that you can control the widths of images; I think {width:600px} or something similar at the end of the image tag would work, but double-check the documentation.
