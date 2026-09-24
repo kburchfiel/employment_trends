@@ -6,6 +6,8 @@ import pandas as pd
 import svy
 import numpy as np
 import polars as pl
+import plotly.express as px
+from IPython.display import Image, display
 
 def perform_svy_analysis(sample, y, analysis_type, by = [], where = None, 
     col_suffix = '', count_col = 'Count'):
@@ -269,3 +271,23 @@ been implemented within this function.")
             df_pivot.rename(columns = col_renaming_dict, inplace = True)
 
     return df_pivot
+
+def save_and_display_image(fig, file_path, chart_height, chart_width, chart_scale,
+                          display_width = 720):
+    '''This function saves the Plotly chart passed to 'fig' as both a PNG
+    and HTML file, then displays the HTML file within a Jupyter notebook.
+    Don't add 'png' to the file path, as this will get added in automatically.'''
+
+    # Saving a PNG image:
+    fig.write_image(file_path + '.png', 
+    height = chart_height, width = chart_width, scale = chart_scale)
+
+    # Saving an interactive HTML copy:
+    # Note: Setting 'full_html' to False will make it easier to incorporate
+    # these HTML files into another HTML file (i.e. via a Jinja2 template).
+    # Setting include_plotlyjs to 'cdn' can greatly reduce the file's
+    # size.
+    fig.write_html(file_path + '.html', 
+    include_plotlyjs = 'cdn', full_html = False)
+    display(Image(file_path + '.png', width = display_width))
+    # Based on https://stackoverflow.com/a/35061341/13097194

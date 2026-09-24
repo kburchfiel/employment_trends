@@ -55,6 +55,19 @@ Here's a copy of the following chart that does not include error bars:
 
 ![](Charts/software_developer_employment_by_year_and_age_range.png)
 
+## Assessing the growth in the percentage of Americans who are employed as software developers
+
+Another way to evaluate software-development's growth is to estimate the percentage of Americans who are employed as a developer. This approach adjusts for growth in the US population; in addition, it allows for logistic-regression tests that allow us to assess whether two differences in proportions are statistically significant.
+
+The average percentage of Americans employed as software developers for January through August 2026 is 1.33%. This is significantly higher than the % employed in each year from 2022 through 2025. (The 2022 percentage was 1.13%).
+
+![](Charts/developer_employment_proportion_by_year_with_error_bars.png)
+
+
+Here's the same graph without error bars:
+
+![](Charts/developer_employment_proportion_by_year.png)
+
 
 ## Conclusion and next steps
 
