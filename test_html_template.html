@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- The initial structural code for this file came from
+https://jinja.palletsprojects.com/en/stable/templates/
+and https://getbootstrap.com/docs/5.2/getting-started/introduction/. 
+Another helpful resource for creating Jinja2 templates actually comes
+from the Plotly website itself:
+https://plotly.com/python/interactive-html-export/#inserting-plotly-output-into-html-using-a-jinja2-template -->-
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Employment Trends Blog Post</title>
+   <!-- Bootstrap: -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<style>
+    body {font-family:'Jost', serif}
+    .chart_title {text-align: center}
+    .chart_annotation {text-align: left; font-size:12px}
+</style>
+    
+</head>
+<body>
+
+<!-- Layout code within <body> was based on:
+        https://getbootstrap.com/docs/4.0/layout/grid/ -->
+    <div class="container-md">
+        <div class="row">
+            <div class="col" style="text-align:center">
+                <h3>Testing out IFrames</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col" style="text-align:center">
+                <p>Text goes here.<br>Even more text goes here!</p>
+            </div>
+        </div>
+        
+                <div class="row">
+            <div class="col">
+            <!-- Adding a d-flex class allows me to center the 
+            chart within the page. (There could very well be another way
+            to achieve this effect, though.)
+            However, I ended up removing it because, for some reason,
+            it didn't allow my Plotly chart to be responsive.
+            Source: https://www.geeksforgeeks.org/bootstrap/how-to-center-an-element-vertical-and-horizontal-alignment-in-bootstrap-5/-->
+            <div>
+                <!-- Including an HTML file that will then
+                get added into this page when it gets rendered:
+                (This was based on https://jinja.palletsprojects.com/en/stable/templates/#include .-->
+{% include 'Charts/developer_employment_proportion_by_year_and_month_with_error_bars.html' %}
+            </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col" style="text-align:center">
+                <p>Other goes here.<br>Still other text goes here!</p>
+            </div>
+        </div>
+        
+                <div class="row">
+            <div class="col" style="text-align:center">
+ <!--class="d-flex align-items-center justify-content-center"  -->
+            <div>{% include 'Charts/software_developer_employment_by_year.html' %}
+            </div>
+
+
+        </div>
+                </div>
+    </div>
+</body>
+
+
+
