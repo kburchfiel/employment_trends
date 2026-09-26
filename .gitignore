@@ -13,3 +13,4 @@ __pycache__/survey_analysis_functions.cpython-313.pyc
 Datasets/full_ue_props.csv
 Datasets/full_emp_totals.csv
 Datasets/df_emp_totals_combined.txt
+__pycache__/charting_functions.cpython-313.pyc

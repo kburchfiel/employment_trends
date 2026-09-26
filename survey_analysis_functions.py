@@ -6,8 +6,6 @@ import pandas as pd
 import svy
 import numpy as np
 import polars as pl
-import plotly.express as px
-from IPython.display import Image, display
 
 def perform_svy_analysis(sample, y, analysis_type, by = [], where = None, 
     col_suffix = '', count_col = 'Count'):
@@ -271,29 +269,3 @@ been implemented within this function.")
             df_pivot.rename(columns = col_renaming_dict, inplace = True)
 
     return df_pivot
-
-def save_and_display_image(fig, file_path, chart_height, chart_width, chart_scale, display_width = 720, save_html_copy = False):
-    '''This function saves the Plotly chart passed to 'fig' as both a PNG
-    and (if save_html_copy is set to True) HTML file, then displays the 
-    PNG file within a Jupyter notebook.
-    Don't add 'png' to the file path, as this will get added in automatically.
-    '''
-
-    # Saving a PNG image:
-    fig.write_image(file_path + '.png', 
-    height = chart_height, width = chart_width, scale = chart_scale)
-
-    # Saving an interactive HTML copy:
-    # Note: Setting 'full_html' to False will make it easier to incorporate
-    # these HTML files into another HTML file (i.e. via a Jinja2 template).
-    # Setting include_plotlyjs to 'cdn' can greatly reduce the file's
-    # size.
-    # See
-    # https://plotly.com/python/interactive-html-export/#inserting-plotly-output-into-html-using-a-jinja2-template
-    # for more details.
-    if save_html_copy == True:
-        fig.write_html(file_path + '.html', 
-        include_plotlyjs = 'cdn', full_html = False,
-        config={'responsive':True})
-    display(Image(file_path + '.png', width = display_width))
-    # Based on https://stackoverflow.com/a/35061341/13097194
