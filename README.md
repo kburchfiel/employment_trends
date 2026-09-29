@@ -26,7 +26,16 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 * Use R to spot-check findings in order to ensure that your code is working as expected.
 
-* Check changes in proportions within svy-based Python code for statistical significance.
+* Create graphs of changes in developer-employment proportions at the yearly level--both with and without error bars, and with and without age-range comparisons (so 4 charts total).
+
+* Update your graphing function calls, where needed, so that they better match the structure for your 'software employment by year' charts. (This will allow you to create updated versions of your HTML-based charts for use within your HTML-based blog post without messing up the original static charts.)
+
+* Update your WordPress blog post as needed.
+
+* Copy your Markdown-based blog content into your HTML-based blog post template. (Using pandoc to assist with the conversion might speed things up. Next, replace the static charts within the Markdown-based file with your new interactive ones via Jinja2's %include% feature.
+
+* (Note: Consider showing just confidence-interval-based charts witin the HTML-blog post unless age-range data is being presented--in which case you'll also want to show the error-bar-free versions for easier readability.)
+
 
 * Use ACS1 data for recent years to:
 
@@ -48,8 +57,3 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 * Figure out how to add thousands separators to confidence-interval data within tooltips.
 
-* Consider creating an HTML-based blog post, perhaps using a Jinja2 setup, that would allow interactive charts to appear alongside your text. (This could be hosted on the GitHub site for your project.)
-
-* Update your WordPress blog post as needed.
-
-* As an experiment, try exporting your Markdown blog post to HTML so that you can see whether it shows up correctly (e.g. with PNG images present) within your GitHub pages site. (Use pandoc for this task so that you can control the widths of images; I think {width:600px} or something similar at the end of the image tag would work, but double-check the documentation.
