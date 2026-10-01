@@ -113,3 +113,99 @@ def create_responsive_html_chart(fig, chart_height,
 
     with open(file_path+'.html', 'w') as file:
         file.write(title_fig_and_annotation)    
+
+
+
+def render_static_and_interactive_charts(
+    df, title, default_file_path,
+      x, y, error_y, error_y_minus, 
+    chart_height = 500, chart_width = 600,
+      chart_scale = 4, color = None, margin_b = 120, margin_t = 100,
+        subtitle = '', subtitle_for_error_bar_chart = '',
+    hover_data = None, xaxis_title = None, yaxis_title = None,
+    annotation_text = '', annotation_x = -0.16, annotation_y = -0.42,
+    annotation_align = 'left', showarrow = False,
+    annotation_xref = 'paper', annotation_yref = 'paper',
+    title_y = 'auto', legend_title = None, reorder_xaxis = False,
+    categoryarray = [], title_div = 'h3'):
+
+    '''This function creates both static (PNG-based) and interactive
+    (HTML-based) figures. The interactive figures are created via
+    create_responsive_html_chart(), which allows titles and 
+    annotations to get text wrapped (by making them separate HTML
+    elements).
+    
+    Both figures with and without error bars will
+    be created (meaning four charts will be created in total). 
+    
+    (This function is meant specifically for this notebook, but it could
+    potentially be updated to accommodate similar data-analysis projects.)
+
+
+    reorder_xaxis: Set to True to manually update the order in which
+    x-axis values appear. This can be helpful from time to time to
+    ensure that items are in the right chronological order (particularly
+    when not all years have data available for all values passed to 
+    the color argument).
+
+    categoryarray: The array to use to reorder the x axis.
+
+    [MORE DOCUMENTATION TO COME. CERTAIN VARIABLES APPLY ONLY TO
+    PNG-BASED CHARTS]
+    '''
+        
+    
+    for error_y, error_y_minus in [[error_y, error_y_minus], [None, None]]:
+    
+        print("Error-bar variables:", error_y, error_y_minus)
+        
+        markers=True
+        file_path = default_file_path
+        chart_subtitle = subtitle
+        if error_y is not None:
+            # Adding a suffix to distinguish this chart from the error-bar-free
+            # one
+            file_path = default_file_path+'_with_error_bars'
+            chart_subtitle = subtitle_for_error_bar_chart
+            markers=False        
+            
+        
+        fig = px.line(df,
+        x = x, y = y,
+        hover_data = hover_data, markers=markers,
+        height = chart_height, color = color,
+        error_y = error_y, error_y_minus = error_y_minus).update_layout(
+        xaxis_title = xaxis_title, yaxis_title = yaxis_title, 
+        margin_b = margin_b, margin_t = margin_t, legend_title=legend_title)
+    
+        if len(chart_subtitle) > 0:
+            title_and_subtitle = title + '<br><sub>' + chart_subtitle + '</sub>'
+        else:
+            title_and_subtitle = title
+
+        if reorder_xaxis == True:
+            fig.update_xaxes(categoryorder = 'array',
+categoryarray = categoryarray)
+        
+        # Creating and saving an HTML copy of the chart that can get
+        # incorporated into an HTML-based blog post:
+        create_responsive_html_chart(fig = fig, chart_height = chart_height,
+                                    annotation_text = annotation_text, 
+                                    file_path = file_path,
+                                    margin_t = margin_t, margin_b = margin_b,
+                                    title = title_and_subtitle,
+                                    title_div = title_div)
+        
+        # Preparing the figure for PNG export: (This will involve adding
+        # in our title and subtitle.)
+        fig.update_layout(title = title_and_subtitle,
+        title_y = title_y)
+        fig.add_annotation(x = annotation_x, y = annotation_y,
+        align = annotation_align,
+        text = annotation_text, showarrow = showarrow, 
+        xref = annotation_xref, yref = annotation_yref)
+    
+        print(file_path)
+        
+        save_and_display_image(fig, file_path, 
+        chart_height, chart_width, chart_scale)
