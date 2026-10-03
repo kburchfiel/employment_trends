@@ -22,19 +22,26 @@ Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles, J. Robert Warren, Danie
 
 This IPUMS data is itself a derivative of Current Population Survey data. To learn more about this survey, visit https://www.census.gov/programs-surveys/cps.html .
 
+## Relevant code files
+
+1. employment_data_prep.ipynb reformats, then performs some initial analyses, of employment data.
+2. employment_data_analyses.ipynb uses the datasets created by employment_data_prep.ipynb to create descriptive and inferential analyses of software-developer employment data, along with both static and interactive charts.
+3. html_blog_post_template.html (still a work in progress) contains the text of a blog post on software-developer employment along with interactive-chart filenames.
+4. html_blog_post_jinja2_render.ipynb renders the content in html_blog_post_template.html by adding in, for each chart filename, its corresponding interactive visualization. It saves its output to rendered_html_blog_post.html. This latter file should *not* be edited directly, as those edits would be overwritten in the future once html_blog_post_jinja2_render.ipynb is rerun. Edits should instead be made to html_blog_post_template.html.)
+5. r_data_checks.Rmd, once it's complete, will use the survey and srvyr R libraries to double-check selected proportion and regression results.
+6. charting_functions.py contains relevant functions for creating static and interactive visualizations of data.
+7. survey_analysis_functions.py contains functions to help speed up data-analysis tasks.
+
 ### To-Dos
+
+* Update documentation for your function that creates HTML-based charts, as you're now treating margin data differently than you did earlier. Also consider decreasing the HTML charts' height by a certain amount (but less than 180, the combined sum of the default margin-t and margin-b values) to account for the fact that titles, subtitles, and annotations are added as separate HTML elements.
+
+* Finish updating your HTML-based blog post, then try converting it (via pandoc) to a Markdown file in order to update your Wordpress article.
 
 * Use R to spot-check findings in order to ensure that your code is working as expected.
 
 * Create graphs of changes in developer-employment proportions at the yearly level--both with and without error bars, and with and without age-range comparisons (so 4 charts total).
 
-* Update your graphing function calls, where needed, so that they better match the structure for your 'software employment by year' charts. (This will allow you to create updated versions of your HTML-based charts for use within your HTML-based blog post without messing up the original static charts.)
-
-* Update your WordPress blog post as needed.
-
-* Copy your Markdown-based blog content into your HTML-based blog post template. (Using pandoc to assist with the conversion might speed things up. Next, replace the static charts within the Markdown-based file with your new interactive ones via Jinja2's %include% feature.
-
-* (Note: Consider showing just confidence-interval-based charts witin the HTML-blog post unless age-range data is being presented--in which case you'll also want to show the error-bar-free versions for easier readability.)
 
 
 * Use ACS1 data for recent years to:

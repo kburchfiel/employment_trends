@@ -82,17 +82,12 @@ def create_responsive_html_chart(fig, chart_height,
     
     # Updating this figure for HTML rendering:
     # Since the title and annotation will be stored as separate HTML
-    # elements, we can (and should) set margin_t and margin_b to 0
-    # so that they'll be closer to the figure. We should also subtract
-    # our original margin_t and margin_b values from the chart's height
-    # in order to account for these removed items. (Otherwise, the chart
-    # will be taller than necessary.)
+    # elements, we should set margin_t and margin_b to 0 in order to
+    # eliminate unnecessary space between the chart itself and these items.
     
     fig_for_HTML.update_layout(
-    height = chart_height - margin_t - margin_b,
-    margin_t = 0, margin_b = 0) # Setting the top and bottom margins
-    # to 0 will allow our separate title and annotation elements to move
-    # closer to the actual chart
+    height = chart_height,
+    margin_t = 0, margin_b = 0)
 
     # Creating an HTML copy of this file:
     fig_as_html = fig_for_HTML.to_html(config={'responsive':True}, 
@@ -126,7 +121,7 @@ def render_static_and_interactive_charts(
     annotation_text = '', annotation_x = -0.16, annotation_y = -0.42,
     annotation_align = 'left', showarrow = False,
     annotation_xref = 'paper', annotation_yref = 'paper',
-    title_y = 'auto', legend_title = None, reorder_xaxis = False,
+    title_y = None, legend_title = None, reorder_xaxis = False,
     categoryarray = [], title_div = 'h3'):
 
     '''This function creates both static (PNG-based) and interactive
