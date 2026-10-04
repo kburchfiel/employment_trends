@@ -8,7 +8,8 @@ import plotly.express as px
 from IPython.display import Image, display
 import plotly.graph_objects as go
 
-def save_and_display_image(fig, file_path, chart_height, chart_width, chart_scale, display_width = 720, save_html_copy = False):
+def save_and_display_image(fig, file_path, chart_height, chart_width, 
+chart_scale, display_width = 720, save_html_copy = False):
     '''This function saves the Plotly chart passed to 'fig' as both a PNG
     and (if save_html_copy is set to True) HTML file, then displays the 
     PNG file within a Jupyter notebook.
@@ -37,8 +38,7 @@ def save_and_display_image(fig, file_path, chart_height, chart_width, chart_scal
 def create_responsive_html_chart(fig, chart_height,
                                 annotation_text, file_path, 
                                 title = '',
-                                margin_t = 100, margin_b = 80,
-                                title_div = 'h3'):
+                                title_div = 'h3', hide_modebar = False):
     '''This function creates an interactive chart in which titles and 
     annotations can be wrapped as needed.
     
@@ -55,14 +55,6 @@ def create_responsive_html_chart(fig, chart_height,
     you should update them within the HTML file in wish you want to place
     these charts. (The classes assigned to each element should help with
     this.)
-
-    margin_t and margin_b should equal the margins that exist within
-    the chart at the time you call this function. (The default settings
-    equal Plotly's own defaults; see 
-    the margin_t and margin_b entries within
-    https://plotly.com/python/reference/layout/ . Similarly, chart_height
-    should equal the height of the chart passed to the fig parameter.
-    (See code and comments for an explanation of why this is helpful.)
 
     title_div: The div that you'd like to use for the title. Can be
     h3, h2, p, etc.
@@ -89,8 +81,20 @@ def create_responsive_html_chart(fig, chart_height,
     height = chart_height,
     margin_t = 0, margin_b = 0)
 
+
+    if hide_modebar == True:
+        config = {'displayModeBar': False, 'responsive':True} 
+        # I find that the modebar sometimes gets in the way when
+        # viewing charts on mobile devices. (The code for hiding the
+        # modebar comes from
+        # https://plotly.com/python/configuration-options/#hiding-the-plotly-logo-on-the-modebar .)
+
+    else:
+        config = {'responsive':True}
+    
+    
     # Creating an HTML copy of this file:
-    fig_as_html = fig_for_HTML.to_html(config={'responsive':True}, 
+    fig_as_html = fig_for_HTML.to_html(config=config, 
     full_html = False, include_plotlyjs='cdn')
 
     # Creating a string that combines the title, figure, and annotation
@@ -107,35 +111,57 @@ def create_responsive_html_chart(fig, chart_height,
 </div><p class = 'chart_annotation'>{annotation_text}</p>"
 
     with open(file_path+'.html', 'w') as file:
-        file.write(title_fig_and_annotation)    
-
-
+        file.write(title_fig_and_annotation)
 
 def render_static_and_interactive_charts(
-    df, title, default_file_path,
-      x, y, error_y, error_y_minus, 
-    chart_height = 500, chart_width = 600,
-      chart_scale = 4, color = None, margin_b = 120, margin_t = 100,
-        subtitle = '', subtitle_for_error_bar_chart = '',
+    df, title, file_path,
+    x, y,
+    html_chart_height = 500, png_chart_height = 0,
+    chart_width = 600,
+      chart_scale = 4, color = None, markers = True,
+    html_margin_t = 0, html_margin_b = 0,
+    png_margin_t = 100, png_margin_b = 80,
+    subtitle = '',
     hover_data = None, xaxis_title = None, yaxis_title = None,
     annotation_text = '', annotation_x = -0.16, annotation_y = -0.42,
     annotation_align = 'left', showarrow = False,
     annotation_xref = 'paper', annotation_yref = 'paper',
     title_y = None, legend_title = None, reorder_xaxis = False,
-    categoryarray = [], title_div = 'h3'):
+    categoryarray = [], title_div = 'h3', error_y = None, 
+    error_y_minus = None, error_x = None, error_x_minus = None,
+    hide_modebar = False):
 
     '''This function creates both static (PNG-based) and interactive
     (HTML-based) figures. The interactive figures are created via
     create_responsive_html_chart(), which allows titles and 
     annotations to get text wrapped (by making them separate HTML
-    elements).
-    
-    Both figures with and without error bars will
-    be created (meaning four charts will be created in total). 
-    
-    (This function is meant specifically for this notebook, but it could
-    potentially be updated to accommodate similar data-analysis projects.)
+    elements). Meanwhile, the title, subtitle, and annotation are added
+    directly to the PNG-based chart. As a result, certain modifications
+    to the PNG-based chart, such as a height adjustmnet, will need to be 
+    made in order to accommodate these additional elements.
 
+    The HTML version of the chart will have separate <div> elements for its
+    title/subtitle and annotation. Therefore, by default, html_margin_t 
+    and html_margin_b (the margin_t and margin_b values,
+    respectively, for the HTML-based chart) are set to 0 in order to 
+    eliminate unnecessary space between the chart and these separate 
+    <div> elements. However, if the chart has a legend above or below
+    it, these two values may need to be tweaked accordingly.
+
+    png_margin_t and png_margin_b refer to the margin_t and margin_b
+    settings, respectively, to use within the PNG-based chart. Their 
+    default values equal Plotly's default values (as specified in
+    https://plotly.com/python/reference/layout/) as of 2026-10-03.
+
+    html_chart_height refers to the desired height of the HTML-based chart.
+
+    png_chart_height specifies the desired height of the PNG chart. If 
+    kept at its default value (0), this height will automatically be
+    calculated using the following forumla:
+    png_chart_height = html_chart_height + (png_margin_t - html_margin_t)
+    + (png_margin_b + html_margin_b). (Basically, we're increasing 
+    the height by the difference between our PNG and HTML margin settings
+    so that the PNG margins won't eat into the space for the graph itself.
 
     reorder_xaxis: Set to True to manually update the order in which
     x-axis values appear. This can be helpful from time to time to
@@ -144,63 +170,63 @@ def render_static_and_interactive_charts(
     the color argument).
 
     categoryarray: The array to use to reorder the x axis.
+    
+    error_y, error_y_minus, error_x, and error_y_minus specify which
+    error-bar fields, if any, to use within the figure.
 
-    [MORE DOCUMENTATION TO COME. CERTAIN VARIABLES APPLY ONLY TO
-    PNG-BASED CHARTS]
+    annotation_text will be applied within both the HTML chart and the 
+    PNG one; hoever, all other annotation parameters (i.e. 
+    annotation_x, annotation_y, 
+    annotation_align, showarrow, annotation_xref, and
+    annotation_yref) will get applied to the PNG chart only.
     '''
-        
     
-    for error_y, error_y_minus in [[error_y, error_y_minus], [None, None]]:
-    
-        print("Error-bar variables:", error_y, error_y_minus)
-        
-        markers=True
-        file_path = default_file_path
-        chart_subtitle = subtitle
-        if error_y is not None:
-            # Adding a suffix to distinguish this chart from the error-bar-free
-            # one
-            file_path = default_file_path+'_with_error_bars'
-            chart_subtitle = subtitle_for_error_bar_chart
-            markers=False        
-            
-        
-        fig = px.line(df,
-        x = x, y = y,
-        hover_data = hover_data, markers=markers,
-        height = chart_height, color = color,
-        error_y = error_y, error_y_minus = error_y_minus).update_layout(
-        xaxis_title = xaxis_title, yaxis_title = yaxis_title, 
-        margin_b = margin_b, margin_t = margin_t, legend_title=legend_title)
-    
-        if len(chart_subtitle) > 0:
-            title_and_subtitle = title + '<br><sub>' + chart_subtitle + '</sub>'
-        else:
-            title_and_subtitle = title
 
-        if reorder_xaxis == True:
-            fig.update_xaxes(categoryorder = 'array',
+    # Creating a figure for our HTML_based chart:
+    fig = px.line(df,
+    x = x, y = y,
+    hover_data = hover_data, markers=markers,
+    height = html_chart_height, color = color,
+    error_y = error_y, error_y_minus = error_y_minus,
+    error_x = error_x, error_x_minus = error_x_minus).update_layout(
+    xaxis_title = xaxis_title, yaxis_title = yaxis_title, 
+    margin_b = html_margin_b, margin_t = html_margin_t, 
+    legend_title=legend_title)
+
+    if len(subtitle) > 0:
+        title_and_subtitle = title + '<br><sub>' + subtitle + '</sub>'
+    else:
+        title_and_subtitle = title
+
+    if reorder_xaxis == True:
+        fig.update_xaxes(categoryorder = 'array',
 categoryarray = categoryarray)
-        
-        # Creating and saving an HTML copy of the chart that can get
-        # incorporated into an HTML-based blog post:
-        create_responsive_html_chart(fig = fig, chart_height = chart_height,
-                                    annotation_text = annotation_text, 
-                                    file_path = file_path,
-                                    margin_t = margin_t, margin_b = margin_b,
-                                    title = title_and_subtitle,
-                                    title_div = title_div)
-        
-        # Preparing the figure for PNG export: (This will involve adding
-        # in our title and subtitle.)
-        fig.update_layout(title = title_and_subtitle,
-        title_y = title_y)
-        fig.add_annotation(x = annotation_x, y = annotation_y,
-        align = annotation_align,
-        text = annotation_text, showarrow = showarrow, 
-        xref = annotation_xref, yref = annotation_yref)
     
-        print(file_path)
-        
-        save_and_display_image(fig, file_path, 
-        chart_height, chart_width, chart_scale)
+    # Creating and saving an HTML copy of the chart that can get
+    # incorporated into an HTML-based blog post:
+    create_responsive_html_chart(
+        fig = fig, chart_height = html_chart_height,
+        annotation_text = annotation_text, 
+        file_path = file_path, title = title_and_subtitle,
+        title_div = title_div, hide_modebar = hide_modebar)
+    
+    # Preparing the figure for PNG export: (This will involve adding
+    # in our title, subtitle, and annottion--and also adjusting the 
+    # chart's height and margins to make room for this
+    # additional content.
+    if png_chart_height == 0:
+        png_chart_height = html_chart_height + (
+        png_margin_t - html_margin_t) + (
+        html_margin_t - html_margin_b)
+    fig.update_layout(title = title_and_subtitle,
+    title_y = title_y, height = png_chart_height, margin_t = png_margin_t,
+    margin_b = png_margin_b)
+    fig.add_annotation(x = annotation_x, y = annotation_y,
+    align = annotation_align,
+    text = annotation_text, showarrow = showarrow, 
+    xref = annotation_xref, yref = annotation_yref)
+
+    print(file_path)
+    
+    save_and_display_image(fig, file_path, 
+    png_chart_height, chart_width, chart_scale)
