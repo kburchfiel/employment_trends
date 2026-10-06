@@ -119,9 +119,10 @@ def render_static_and_interactive_charts(
     html_chart_height = 500, png_chart_height = 0,
     chart_width = 600,
       chart_scale = 4, color = None, markers = True,
-    html_margin_t = 0, html_margin_b = 0,
+    html_margin_t = 0, html_margin_b = 0, html_margin_r = 25,
     png_margin_t = 100, png_margin_b = 80,
     subtitle = '',
+    category_orders = {}, color_discrete_sequence = None,
     hover_data = None, xaxis_title = None, yaxis_title = None,
     annotation_text = '', annotation_x = -0.16, annotation_y = -0.42,
     annotation_align = 'left', showarrow = False,
@@ -129,7 +130,11 @@ def render_static_and_interactive_charts(
     title_y = None, legend_title = None, reorder_xaxis = False,
     categoryarray = [], title_div = 'h3', error_y = None, 
     error_y_minus = None, error_x = None, error_x_minus = None,
-    hide_modebar = False):
+    hide_modebar = False,
+    html_legend_orientation = 'h', html_legend_yanchor = 'bottom', 
+    html_legend_y = 1.02, 
+    html_legend_xanchor = 'center', html_legend_x = 0.5, 
+    html_legend_maxheight = None):
 
     '''This function creates both static (PNG-based) and interactive
     (HTML-based) figures. The interactive figures are created via
@@ -137,7 +142,7 @@ def render_static_and_interactive_charts(
     annotations to get text wrapped (by making them separate HTML
     elements). Meanwhile, the title, subtitle, and annotation are added
     directly to the PNG-based chart. As a result, certain modifications
-    to the PNG-based chart, such as a height adjustmnet, will need to be 
+    to the PNG-based chart, such as a height increase, will need to be 
     made in order to accommodate these additional elements.
 
     The HTML version of the chart will have separate <div> elements for its
@@ -146,13 +151,22 @@ def render_static_and_interactive_charts(
     respectively, for the HTML-based chart) are set to 0 in order to 
     eliminate unnecessary space between the chart and these separate 
     <div> elements. However, if the chart has a legend above or below
-    it, these two values may need to be tweaked accordingly.
+    it, these two values may need to be tweaked accordingly. Meanwhile,
+    the default setting for html_margin_r 
+    (which doesn't yet have a PNG-based equivalent) allows the chart
+    to take up more horizontal space, thus making it more readable on
+    narrower screens.
+    
 
     png_margin_t and png_margin_b refer to the margin_t and margin_b
     settings, respectively, to use within the PNG-based chart. Their 
     default values equal Plotly's default values (as specified in
     https://plotly.com/python/reference/layout/) as of 2026-10-03.
 
+    category_orders is a dictionary that you can use to manually reorder
+    field values. For more on this parameter, see
+    https://plotly.com/python/legend/#legend-order .
+    
     html_chart_height refers to the desired height of the HTML-based chart.
 
     png_chart_height specifies the desired height of the PNG chart. If 
@@ -175,43 +189,76 @@ def render_static_and_interactive_charts(
     error-bar fields, if any, to use within the figure.
 
     annotation_text will be applied within both the HTML chart and the 
-    PNG one; hoever, all other annotation parameters (i.e. 
+    PNG one; however, all other annotation parameters (i.e. 
     annotation_x, annotation_y, 
     annotation_align, showarrow, annotation_xref, and
     annotation_yref) will get applied to the PNG chart only.
+
+    The default HTML legend options will place the legend at the 
+    top center of the chart. This frees up valuable display area for 
+    the chart to expend horizontally on mobile devices. (Similar settings
+    could also work well for PNG-based charts, though they would probably
+    need some tweaking). 
+    
+    Note that setting legend_yanchor to 'bottom' allows
+    the legend to extend up from the legend_y value, rather than down
+    from it. This helps prevent legends from overlapping the chart on
+    narrow screens, and also eliminates wasted white space between the
+    legend and chart on wider screens.    
+
+    One issue with this approach, though, is that the legend can grow
+    increasingly tall on narrower screens, thus cutting into space for
+    the chart. Therefore, it may be useful to specify a max-height
+    setting (i.e. of around 130) in order to ensure that the chart itself
+    will remain viewable.
+
+    It also appears that, if any of these legend values is set to None, 
+    Plotly will simply maintain its default setting for that variable. Thus, 
+    'None' should work well as a default argument for at least some of
+    these items.
     '''
     
 
-    # Creating a figure for our HTML_based chart:
+    # Creating a figure that will be used as the basis for both
+    # our HTML and PNG-based charts:
     fig = px.line(df,
     x = x, y = y,
     hover_data = hover_data, markers=markers,
-    height = html_chart_height, color = color,
+    color = color,
     error_y = error_y, error_y_minus = error_y_minus,
-    error_x = error_x, error_x_minus = error_x_minus).update_layout(
-    xaxis_title = xaxis_title, yaxis_title = yaxis_title, 
-    margin_b = html_margin_b, margin_t = html_margin_t, 
+    error_x = error_x, error_x_minus = error_x_minus,
+    category_orders = category_orders,
+    color_discrete_sequence = color_discrete_sequence).update_layout(
+    xaxis_title = xaxis_title, yaxis_title = yaxis_title,
     legend_title=legend_title)
+    if reorder_xaxis == True:
+        fig.update_xaxes(categoryorder = 'array',
+categoryarray = categoryarray)
+
+    # Creating an HTML-specific copy to which certain HTML-only settings
+    # can get applied:
+    fig_for_html = go.Figure(fig).update_layout(height = html_chart_height, 
+    margin_b = html_margin_b, margin_t = html_margin_t, 
+    margin_r = html_margin_r, legend_orientation = html_legend_orientation,
+    legend_yanchor = html_legend_yanchor, legend_y = html_legend_y, 
+    legend_xanchor = html_legend_xanchor, legend_x = html_legend_x, 
+    legend_maxheight = html_legend_maxheight)    
 
     if len(subtitle) > 0:
         title_and_subtitle = title + '<br><sub>' + subtitle + '</sub>'
     else:
         title_and_subtitle = title
 
-    if reorder_xaxis == True:
-        fig.update_xaxes(categoryorder = 'array',
-categoryarray = categoryarray)
-    
     # Creating and saving an HTML copy of the chart that can get
     # incorporated into an HTML-based blog post:
     create_responsive_html_chart(
-        fig = fig, chart_height = html_chart_height,
+        fig = fig_for_html, chart_height = html_chart_height,
         annotation_text = annotation_text, 
         file_path = file_path, title = title_and_subtitle,
         title_div = title_div, hide_modebar = hide_modebar)
     
     # Preparing the figure for PNG export: (This will involve adding
-    # in our title, subtitle, and annottion--and also adjusting the 
+    # in our title, subtitle, and annotation--and also adjusting the 
     # chart's height and margins to make room for this
     # additional content.
     if png_chart_height == 0:
@@ -230,3 +277,6 @@ categoryarray = categoryarray)
     
     save_and_display_image(fig, file_path, 
     png_chart_height, chart_width, chart_scale)
+
+    return fig_for_html # Having access to the HTML-based figure can be helpful
+    # for further customization and testing.

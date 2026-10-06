@@ -27,20 +27,22 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 1. employment_data_prep.ipynb reformats, then performs some initial analyses, of employment data.
 2. employment_data_analyses.ipynb uses the datasets created by employment_data_prep.ipynb to create descriptive and inferential analyses of software-developer employment data, along with both static and interactive charts.
 3. html_blog_post_template.html (still a work in progress) contains the text of a blog post on software-developer employment along with interactive-chart filenames.
-4. html_blog_post_jinja2_render.ipynb renders the content in html_blog_post_template.html by adding in, for each chart filename, its corresponding interactive visualization. It saves its output to rendered_html_blog_post.html. This latter file should *not* be edited directly, as those edits would be overwritten in the future once html_blog_post_jinja2_render.ipynb is rerun. Edits should instead be made to html_blog_post_template.html.)
+4. html_blog_post_jinja2_render.ipynb renders the content in html_blog_post_template.html by adding in, for each chart filename, its corresponding interactive visualization. It saves its output to rendered_html_blog_post.html. This latter file should *not* be edited directly, as those edits would be overwritten in the future once html_blog_post_jinja2_render.ipynb is rerun. (Edits should instead be made to html_blog_post_template.html.)
 5. r_data_checks.Rmd, once it's complete, will use the survey and srvyr R libraries to double-check selected proportion and regression results.
 6. charting_functions.py contains relevant functions for creating static and interactive visualizations of data.
 7. survey_analysis_functions.py contains functions to help speed up data-analysis tasks.
 
 ### To-Dos
 
-* Update documentation for your function that creates HTML-based charts, as you're now treating margin data differently than you did earlier. Also consider decreasing the HTML charts' height by a certain amount (but less than 180, the combined sum of the default margin-t and margin-b values) to account for the fact that titles, subtitles, and annotations are added as separate HTML elements.
+* Update documentation for your function that creates HTML-based charts, as you're now treating margin data differently than you did earlier.
+ 
+* Finish updating your HTML-based blog post, then try converting it (via pandoc) to a Markdown file in order to update your Wordpress article. (Also consider showing employment totals by age range in order to complement your employment-proportion graphs.)
 
-* Finish updating your HTML-based blog post, then try converting it (via pandoc) to a Markdown file in order to update your Wordpress article.
+* Double-check your significance findings, especially because you changed the starting period for certain ones from Oct or Nov 2021 to Jan 2021.
 
-* Use R to spot-check findings in order to ensure that your code is working as expected.
+* Use R to spot-check findings in order to ensure that your code is working as expected. (As the svy library developer noted, confidence intervals may differ due to different default settings between these two tools.)
 
-* Create graphs of changes in developer-employment proportions at the yearly level--both with and without error bars, and with and without age-range comparisons (so 4 charts total).
+* Consider adding hovertemplates that allow for better-formatted tooltips. This will likely involve updating at least one of your charting functions.
 
 
 
@@ -55,8 +57,6 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
     Note: As part of these updates, repurpose your existing code for calculating totals and proportions to calculate replicate weights (i.e. by setting the 'method' argument as needed; see https://svylab.com/learn/notes/posts/svy-vs-r-comparison/#replication-based-estimation for guidance on both creating an ACS sample and on passing the correct parameters to your code.
 
 * Review relevant responses to  https://forum.ipums.org/t/calculating-standard-errors-using-cps-basic-monthly-microdata/6408/8 .
-
-* Try to find a way to determine, via a regression analysis, whether differences in totals between two years were statistically significant. Share updates on Reddit as needed. (And consult responses to https://forum.ipums.org/t/what-would-be-the-best-way-to-determine-whether-an-increase-in-total-employment-for-a-given-occupation-is-statistically-significant/7188 for guidance on what regression, test, etc. to use.)
 
 * Add a search box to your occupation dropdown list to make it easier to find certain occupations--or point individuals to the JavaScript file that contains these options. (See https://stackoverflow.com/questions/14148538/multiple-selections-with-datalist for reference.) Consider replacing your existing select-menu code with a JavaScript-based approach that would better facilitate searching.
 

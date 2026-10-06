@@ -26,9 +26,9 @@ https://plotly.com/python/interactive-html-export/#inserting-plotly-output-into-
     body {font-family:'Jost', sans-serif; font-size:18px}
     /* I find left-aligned text easier to read, though charts will remain
     centered.*/
-    h1 {text-align: center}
-    h2 {text-align: center}
-    h3 {text-align: center}
+    h1 {text-align: center; font-weight: bold;}
+    h2 {text-align: center; font-weight: bold;}
+    h3 {text-align: center; font-weight: bold;}
     
     p {text-align: start}
     .chart_title {text-align: center}
@@ -127,32 +127,59 @@ release <a href = 'https://en.wikipedia.org/wiki/ChatGPT'> on November 30,
 </div>
 <div class = "row">
 <div class="col-md-6 m-auto">
-<h3>More to come soon!</h3>
-</div>
-</div>
+<h3Yearly employment by age range</h3>
+<p>It's challenging to use CPS data to draw conclusions about employment 
+trends for a given occupation and age range, as the number of respondents 
+for a given month who fall into a particular age range/occupation group may
+be quite small. Nonetheless, I thought it would be interesting to compare 
+CPS estimates by age in order to see whether employment growth has been 
+particularly large or small for certain groups.</p>
+<p>Here's a look at the data. (The overlapping error bars make this chart 
+quite hard to read, but you can select a single age range by double-clicking on 
+its legend entry. In addition, clicking on an active entry will deselect
+it.)</p>
 
-</p>
+<p>For two age ranges (30-34 and 40-44), the <i>lower</i> confidence interval of the 2026 estimate is higher than the <i>upper</i> confidence interval of the 2022 estimate, which indicates that these two age ranges have seen a significant increase in software-developer employment since 2022. For all other age ranges, we can't conclude that a significant increase <i>or</i> decrease has occurred.</p>    
+</div>
+</div>
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/developer_employment_proportion_by_year_and_age_range_with_error_bars.html' %}
+</div>
+</div>
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <p>Here's a copy of the same chart that does not include error bars:</p>
+    </div>
+</div>      
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/developer_employment_proportion_by_year_and_age_range.html' %}
+</div></div>
+
+
+    </div>
+</body>
         
 <!--  Templates for new paragraphs and headers:
     
 Header: Replace 'h3' with 'h1', 'h2', etc. as needed
     
 <div class="row">
-    <div class="col-md-8 m-auto">
+    <div class="col-md-6 m-auto">
         <h3></h3>
     </div>
 </div> 
 
 Row:
 <div class="row">
-    <div class="col-md-8 m-auto">
+    <div class="col-md-6 m-auto">
         <p></p>
     </div>
 </div>                
 -->
 
-    </div>
-</body>
 
 
 

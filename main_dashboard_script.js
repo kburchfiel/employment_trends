@@ -570,7 +570,12 @@ response count: %{text}<extra></extra>'};
                 // they shouldn't overlap with the line(s) on the chart.
                 legend: {
                     orientation: 'h',
-                    y: 1.35,
+                    y: 1.02,
+                    yanchor : 'bottom', // This allows the legend
+                    // to expand upwards from the y value, which 
+                    // provides more space for the legend on narrower
+                    // screens while also eliminating unnecessary space
+                    // on wider screens.
                     xanchor: 'center',
                     x: 0.5,
                     maxheight: 110
