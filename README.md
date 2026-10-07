@@ -34,15 +34,20 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 ### To-Dos
 
-* Update documentation for your function that creates HTML-based charts, as you're now treating margin data differently than you did earlier.
+* Use R to spot-check findings in order to ensure that your code is working as expected. (As the svy library developer noted, confidence intervals may differ due to different default settings between these two tools.) Consider checking: 
+
+    1. Employment totals by year
+    2. Employment totals by year and month
+    3. Regression results for yearly employment proportions (relative to 2026)
+    4. Regression results for yearly employment proportions by age range (relative to 2026)
+    5. Regression results for unemployment rates by year (relative to 2026)
+
+* Consider adding hovertemplates that allow for better-formatted tooltips. This will likely involve updating at least one of your charting functions.
+
+* Update documentation for your function that creates HTML-based charts, as you're now treating margin_t and margin_b data differently than you did earlier.
  
 * Finish updating your HTML-based blog post, then try converting it (via pandoc) to a Markdown file in order to update your Wordpress article. (Also consider showing employment totals by age range in order to complement your employment-proportion graphs.)
 
-* Double-check your significance findings, especially because you changed the starting period for certain ones from Oct or Nov 2021 to Jan 2021.
-
-* Use R to spot-check findings in order to ensure that your code is working as expected. (As the svy library developer noted, confidence intervals may differ due to different default settings between these two tools.)
-
-* Consider adding hovertemplates that allow for better-formatted tooltips. This will likely involve updating at least one of your charting functions.
 
 
 

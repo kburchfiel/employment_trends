@@ -45,14 +45,18 @@ https://plotly.com/python/interactive-html-export/#inserting-plotly-output-into-
         <div class="row">
             <!-- m-auto keeps this div centered. -->
             <div class="col-md-6 m-auto">
-                <h1>[VERY EARLY WORK IN PROGRESS] CPS data indicates 
-that US software-developer employment has increased since 2022</h1>
+                <h1>[PRELIMINARY RESULTS; DATA CHECKS FORTHCOMING] 
+CPS data indicates that US software-developer employment has increased 
+since 2022</h1>
+
+<p>2026-10-06</p>
                 
 <p>By Ken Burchfiel</p>
                 
 <p>Released under the CC-BY license</p>
 <p><i>Note: I did not use generative-AI tools for any part of this 
-project, including my code, my visualizations, and this blog post.</i></p>
+project, including my research, my code, my visualizations, 
+and this blog post.</i></p>
 <h2>Introduction and methodology</h2>
 <p>In order to assess whether software-developer employment has 
 been increasing or decreasing since ChatGPT was released in 2022, I 
@@ -125,6 +129,7 @@ release <a href = 'https://en.wikipedia.org/wiki/ChatGPT'> on November 30,
 {% include 'Charts/software_developer_employment_by_year_and_month_with_error_bars.html' %}
 </div>
 </div>
+        
 <div class = "row">
 <div class="col-md-6 m-auto">
 <h3Yearly employment by age range</h3>
@@ -138,27 +143,151 @@ particularly large or small for certain groups.</p>
 quite hard to read, but you can select a single age range by double-clicking on 
 its legend entry. In addition, clicking on an active entry will deselect
 it.)</p>
+</div>
+</div>
 
-<p>For two age ranges (30-34 and 40-44), the <i>lower</i> confidence interval of the 2026 estimate is higher than the <i>upper</i> confidence interval of the 2022 estimate, which indicates that these two age ranges have seen a significant increase in software-developer employment since 2022. For all other age ranges, we can't conclude that a significant increase <i>or</i> decrease has occurred.</p>    
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_employment_by_year_and_age_range_with_error_bars.html' %}
 </div>
 </div>
+    
+<div class="row">
+    <div class="col-md-6 m-auto">
+<p>For two age ranges (30-34 and 40-44), the <i>lower</i> confidence interval of the 2026 estimate is higher than the <i>upper</i> confidence interval of the 2022 estimate, which indicates that these two age ranges have seen a significant increase in software-developer employment since 2022. For all other age ranges, we can't conclude that a significant increase <i>or</i> decrease has occurred.</p>
+<p>Here's a copy of the same chart that does not include error bars:</p>
+</div>
+</div>    
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_employment_by_year_and_age_range.html' %}
+</div></div>
+
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <h3>Assessing changes in the percentage of Americans who are 
+employed as software developers</h3>
+<p>Another way to evaluate software-development's growth is to estimate 
+the <i>percentage</i> of Americans who are employed as a developer. This 
+approach adjusts for growth in the US population; in addition, it allows 
+for logistic-regression tests that allow us to assess whether two 
+differences in proportions are statistically significant.</p>        
+<p>The average percentage of Americans employed as software developers for 
+January through August 2026 is 1.33%. This is significantly higher than the 
+percentage employed in each year from 2022 (when it was 1.14%) 
+through 2025.</p>
+    </div>
+</div> 
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/developer_employment_proportion_by_year_with_error_bars.html' %}
+</div></div>
+
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <p>The following chart compares estimated employment percentages by
+age range. In order to test these changes for statistical significance, I performed
+a logistic regression in which the 2026 data was compared to that for
+years 2022 onward. I found that, for four age ranges (30-34, 35-39, 40-44, and 
+55-59), the percenatge of Americans employed as software developers has increased
+significantly relative to 2022. In contrast, while the share of those aged 22-24
+who are employed as software developers grew markedly from 2010 to 2022, it
+has been relatively flat since then, suggesting that the job market has
+indeed been<a href = 'https://www.latimes.com/business/story/2026-09-24/computer-science-grads-face-brutal-job-market-as-ai-reshapes-entry-level-work'>more challenging for recent graduates</a>.
+        </p>
+    </div>
+</div>    
+
 <div class = "row">
 <div class="col-md-8 m-auto">
 {% include 'Charts/developer_employment_proportion_by_year_and_age_range_with_error_bars.html' %}
-</div>
-</div>
+</div></div>
+
 <div class="row">
     <div class="col-md-6 m-auto">
-        <p>Here's a copy of the same chart that does not include error bars:</p>
+        <p>The following chart is a copy of the previous one with the error
+bars removed.
+        </p>
     </div>
-</div>      
+</div>    
+
 
 <div class = "row">
 <div class="col-md-8 m-auto">
 {% include 'Charts/developer_employment_proportion_by_year_and_age_range.html' %}
 </div></div>
 
+<div class="row">
+<div class="col-md-6 m-auto">
+<h3>What about unemployment rates?</h3>
+<p>Even if software-developer employment is growing, it's possible that 
+unemployment rates are growing as well. This would be the case if the 
+supply of potential software developers—i.e., due to <a href = "https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp">increased 
+numbers of computer/information-sciences graduates</a>—grows even faster
+than the demand for developers</p>
+</p>It's difficult to calculate reliable unemployment rates for software
+developers using CPS data, as both the percentage of respondents who are
+(or had been) employed developers, <i>and</i> the percentage of such
+respondents who are unemployed, are quite small. Nevertheless, here's
+what these unemployment-rate estimates look like:</p>
+</div>
+</div>    
 
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_UE_rate_by_year_with_error_bars.html' %}
+</div></div>
+
+<div class="row">
+<div class="col-md-6 m-auto">
+<p>This chart indicates that unemployment for software 
+developers <i>is</i> higher now than in the pre-LLM era. Indeed, I found
+via a logistic regression that the 2026 unemployment rate is significantly 
+higher than that for 2015 through 2019; 2021; and 2022. However, it's also
+significantly <i>lower</i> than it had been in 2010, when the country was
+still emerging from the 2008 financial crisis.</p>
+<p>It's important to consider these unemployment statistics in the context 
+of other occupations, though. The estimated unemployment 
+rate for 2026 to date (around 3%) currently compares favorably to 
+<a href=https://www.bls.gov/charts/employment-situation/civilian-unemployment-rate.html>
+that for all civilians</a>(4.1% as of August 2026).</p>
+</div>
+</div>    
+        
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <h3>Conclusion</h3>
+        <p>These analyses suggest that the overall trend in 
+software-developer employment since 2022 has been positive, particularly 
+for those ages 30-34 and 40-44. This growth in employment, however, has
+coincided with an increase in the unemployment rate for developers. Thus,
+while we don't have evidence that LLMs have caused the total market for
+developers to shrink, this doesn't mean that finding a job as a developer
+is necessarily easy.<p>
+<p>These analyses should be interpreted with caution, given that the CPS's
+sample size is somewhat limited. In the future, I hope to compare these 
+results to those generated via American Community Survey data. The ACS has 
+a <i>much</i> larger sample size, and thus can allow for more precise 
+estimates than those
+we can obtain through the CPS. However, as of October 2026, the latest
+data for which we have ACS data is 2024--which, given the changes in AI
+adoption since then, is too far in the past to be a useful comparison.
+Once ACS data for more recent years becomes available, I certainly hope
+to perform a similar analysis using those survey results.</p>
+<h3>References</h3>
+<p><b>IPUMS CPS citation:</b></p>
+<p><i>Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles, J. 
+Robert Warren, Daniel Backman, Etienne Breton, Grace Cooper, Julia A. 
+Rivera Drew, Stephanie Richards, David Van Riper. Integrated Public Use 
+Microdata Series, Current Population Survey: Version 13.0 [dataset]. 
+Minneapolis, MN: IPUMS, 2025. https://doi.org/10.18128/D030.V13.0</i></p>
+    </div>
+</div> 
+
+        
+        
     </div>
 </body>
         

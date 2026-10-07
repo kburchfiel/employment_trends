@@ -161,7 +161,7 @@ the same values will work well for both total- and prop-type analyses.)
         for c in df_estimates_and_counts.columns}
         
         df_estimates_and_counts = df_estimates_and_counts.rename(
-        columns = col_renaming_dict)
+        col_renaming_dict)
 
     if return_as_pandas == True:
         return df_estimates_and_counts.to_pandas()
