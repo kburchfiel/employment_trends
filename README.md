@@ -34,15 +34,11 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 ### To-Dos
 
-* Use R to spot-check findings in order to ensure that your code is working as expected. (As the svy library developer noted, confidence intervals may differ due to different default settings between these two tools.) Consider checking: 
-
-    1. Employment totals by year
-    2. Employment totals by year and month
-    3. Regression results for yearly employment proportions (relative to 2026)
-    4. Regression results for yearly employment proportions by age range (relative to 2026)
-    5. Regression results for unemployment rates by year (relative to 2026)
+* Continue working on your R-based analyses in order to check your svy results. See whether setting the same tolerance options within both svy and R lets you results match up. 
 
 * Consider adding hovertemplates that allow for better-formatted tooltips. This will likely involve updating at least one of your charting functions.
+
+* Share your HTML-based results.
 
 * Update documentation for your function that creates HTML-based charts, as you're now treating margin_t and margin_b data differently than you did earlier.
  

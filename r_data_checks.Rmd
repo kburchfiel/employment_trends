@@ -4,13 +4,30 @@ output: html_notebook
 ---
 
 ```{r}
-library(tidyverse)
 library(survey)
 library(srvyr)
 library(broom)
 ```
 
 ```{r}
-install.packages("srvyr")
+install.packages('srvyr')
+```
+
+
+```{r}
+install.packages('srvyr')
+#install.packages('dplyr')
+```
+
+
+```{r}
+df <- read_csv('/home/kjb3/D1V1/kjb3largefiles/large_programming/\
+datasets/cps/cps_employment_trends_revised.csv')
+
+df
+```
+
+```{r}
+sd_df <- 
 ```
 
