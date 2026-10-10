@@ -38,7 +38,11 @@ chart_scale, display_width = 720, save_html_copy = False):
 def create_responsive_html_chart(fig, chart_height,
                                 annotation_text, file_path, 
                                 title = '',
-                                title_div = 'h3', hide_modebar = False):
+                                title_div = 'h3', hide_modebar = False,
+                                save_chart = True,
+                                hover_data = [],
+                                custom_data = [],
+                                hover_template = ""):
     '''This function creates an interactive chart in which titles and 
     annotations can be wrapped as needed.
     
@@ -63,10 +67,12 @@ def create_responsive_html_chart(fig, chart_height,
     do so by placing "<br><sub>your_subtitle_text</sub>" after the 
     main title.
 
+    save_chart: Set to True to save the final HTML-based chart
+    to the file specified at file_path.
+
     file_path: The path (either absolute or relative) where the file
     should be saved. Don't include the 'HTML' at the end, as this will
-    get added in automatically.   
-    
+    get added in automatically.       
     '''
     
     fig_for_HTML = go.Figure(fig) # Allows us to make a copy of the figure
@@ -110,8 +116,9 @@ def create_responsive_html_chart(fig, chart_height,
 {title}</{title_div}><div class = 'chart_contents'>{fig_as_html}\
 </div><p class = 'chart_annotation'>{annotation_text}</p>"
 
-    with open(file_path+'.html', 'w') as file:
-        file.write(title_fig_and_annotation)
+    if save_chart == True:
+        with open(file_path+'.html', 'w') as file:
+            file.write(title_fig_and_annotation)
 
 def render_static_and_interactive_charts(
     df, title, file_path,
@@ -134,7 +141,8 @@ def render_static_and_interactive_charts(
     html_legend_orientation = 'h', html_legend_yanchor = 'bottom', 
     html_legend_y = 1.02, 
     html_legend_xanchor = 'center', html_legend_x = 0.5, 
-    html_legend_maxheight = None):
+    html_legend_maxheight = None, custom_data = [],
+    hovertemplate = ""):
 
     '''This function creates both static (PNG-based) and interactive
     (HTML-based) figures. The interactive figures are created via
@@ -216,6 +224,36 @@ def render_static_and_interactive_charts(
     Plotly will simply maintain its default setting for that variable. Thus, 
     'None' should work well as a default argument for at least some of
     these items.
+
+    
+    hover_data: Additional variables to include within the *default* 
+    hover template.
+    
+    custom_data: Additional variables to display within your *custom*
+    hover template (defined via the hovertemplate) argument.
+
+    hovertemplate: A custom template that specifies how hover data 
+    should be formatted. Example (that incorporates custom_data values):
+
+    custom_data = ['Response_Count_emp_total', 'age_range']
+    hovertemplate = "Year: <b>%{x}</b><br>Age range: \
+<b>%{customdata[1]}</b><br>Total employment: <b>%{y:,.0f}</b><br>Response \
+count: <b>%{customdata[0]:,}</b><extra></extra>"   
+
+    For crucial documentation on hovertemplate, visit
+    https://plotly.com/python/hover-text-and-formatting/ . You'll get the 
+    hang of them faster than you think (especially if you know some
+    rudimentary HTML).
+    
+
+    Note: If hover_data isn't empty, but hover_template is not an empty 
+    string, the hover_data content won't have any effect. Meanwhile, 
+    if custom_data contains values, but hovertemplate is an empty string,
+    custom_data values won't get shown.
+
+    (It would also be possible to use the same parameter for both
+    custom_data and hover_data values, then determine which of *those*
+    parameters it will be applied to based on the status of hovertemplate.)
     '''
     
 
@@ -227,13 +265,18 @@ def render_static_and_interactive_charts(
     color = color,
     error_y = error_y, error_y_minus = error_y_minus,
     error_x = error_x, error_x_minus = error_x_minus,
-    category_orders = category_orders,
+    category_orders = category_orders, custom_data = custom_data,
     color_discrete_sequence = color_discrete_sequence).update_layout(
     xaxis_title = xaxis_title, yaxis_title = yaxis_title,
     legend_title=legend_title)
     if reorder_xaxis == True:
         fig.update_xaxes(categoryorder = 'array',
 categoryarray = categoryarray)
+
+    if len(hovertemplate) > 0:
+
+        fig.update_traces(hovertemplate = hovertemplate)
+        
 
     # Creating an HTML-specific copy to which certain HTML-only settings
     # can get applied:

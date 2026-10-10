@@ -34,9 +34,11 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 ### To-Dos
 
-* Continue working on your R-based analyses in order to check your svy results. See whether setting the same tolerance options within both svy and R lets you results match up. 
+* **CRITICAL: Figure out why your R- and Python-based proportion calculations aren't lining up. (Consider creating similar calculations using 'vanilla' Pandas or Polars in order to see which set of existing proportions is wrong.)**
 
-* Consider adding hovertemplates that allow for better-formatted tooltips. This will likely involve updating at least one of your charting functions.
+* Add hovertemplate and custom_data code into functions for other charts that you'll be incorporating into your blog post.
+
+* Continue working on your R-based analyses in order to check your svy results. See whether setting the same tolerance options within both svy and R lets you results match up. 
 
 * Share your HTML-based results.
 
