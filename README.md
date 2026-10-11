@@ -26,7 +26,7 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 1. employment_data_prep.ipynb reformats, then performs some initial analyses, of employment data.
 2. employment_data_analyses.ipynb uses the datasets created by employment_data_prep.ipynb to create descriptive and inferential analyses of software-developer employment data, along with both static and interactive charts.
-3. html_blog_post_template.html (still a work in progress) contains the text of a blog post on software-developer employment along with interactive-chart filenames.
+3. html_blog_post_template.html contains the text of a blog post on software-developer employment along with interactive-chart filenames.
 4. html_blog_post_jinja2_render.ipynb renders the content in html_blog_post_template.html by adding in, for each chart filename, its corresponding interactive visualization. It saves its output to rendered_html_blog_post.html. This latter file should *not* be edited directly, as those edits would be overwritten in the future once html_blog_post_jinja2_render.ipynb is rerun. (Edits should instead be made to html_blog_post_template.html.)
 5. r_data_checks.Rmd, once it's complete, will use the survey and srvyr R libraries to double-check selected proportion and regression results.
 6. charting_functions.py contains relevant functions for creating static and interactive visualizations of data.

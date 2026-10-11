@@ -6,6 +6,7 @@ import pandas as pd
 import svy
 import numpy as np
 import polars as pl
+import warnings
 
 def perform_svy_analysis(sample, y, analysis_type, by = [], where = None, 
     col_suffix = '', return_as_pandas = False):
@@ -212,15 +213,116 @@ to accommodate other regression types.")
     
     return df_reg_results
 
-def survey_pivot(df, weight_col, analysis_method, by_list = [], 
-    dv = '', col_suffix = '', ones_col = ''):
-    '''This function uses the pivot_table() function within Pandas to
+def pl_survey_pivot(dfp, weight_col, analysis_method,
+                    by_list = [], dv = '', col_suffix = '',
+                    add_suffix_to_dv = False,
+                    convert_output_to_pandas = False):
+    
+    '''
+    This function uses group_by(), agg() and other Polars functions to
     generate weighted survey estimates (but not confidence intervals or 
     regression stats.
+    
+    dfp: The Polars DataFrame containing the data to be analyzed.
+    
+    analysis_method: Can be 'Total' (for generating weighted sums)
+    or 'Proportion' (for generating weighted proportions). Other
+    methods may be added in the future.
+    
+    by_list: A list of variables that will be passed to the index argument
+    of the pivot-table function. (For proportions, the dv argument 
+    will also be added to this list. Note that this list can be empty
+    for proportions, in which case the function will calculate the 
+    proportion of respondents in each DV value.)
+    
+    dv: The dependent variable to use for proportions. This variable
+    won't have any effect when analysis_method is set to Total, as 
+    in that case, the function will simply find the total weight_col sum
+    for each group of by_list values.    
+    
+    col_suffix: A suffix that will be added to the end of all output
+    columns not in by. (This will make it easier to differentiate
+    between analyses for various types and DV values.) The function
+    won't attempt to add a suffix if this value is an empty string.
+    
+    convert_output_to_pandas: If True, the function will return a Pandas
+    DataFrame; if False, it will return a Polars DataFrame.
+    '''
+    
+    if analysis_method == 'Total':
+        index = by_list
+        if dv != '':
+            # It's possible that, in this case, the results will be 
+            # misinterpreted to show the totals for each DV value, which 
+            # is not the case. Therefore, I added in the following warning.
+            warnings.warn("WARNING: You've requested to calculate totals, but \
+    your dv argument is not an empty string. The function will calculate \
+    totals for each by-list combination only regardless of dv values. To \
+    incorporate your dv into your totals, add it to by_list instead.")
+    
+        
+    elif analysis_method == 'Proportion':
+        index = by_list + [dv]
+    else:
+        raise ValueError("That analysis method hasn't yet \
+    been implemented within this function.") 
+    
+    
+    dfp_grouped = dfp.group_by(
+    index).agg(
+    pl.col(weight_col).sum().name.suffix('_sum'), 
+    pl.col(weight_col).count().name.suffix('_count'))
 
-    NOTE: This function could be overhauled to use Polars in place of
-    Pandas, which may speed up its execution significantly for particularly
-    large datasets.
+    if analysis_method == 'Proportion':
+        # In this case, proportions for each by_list combination will be 
+        # calculated by dividing the weighted sum for each row by 
+        # the weighted sum for *all* rows that have the same
+        # by_list combination. 
+        # This response is based on
+        # https://stackoverflow.com/a/74513100/13097194 , which also
+        # references https://docs.pola.rs/user-guide/migration/pandas/#pandas-transform .
+        
+        dfp_grouped = dfp_grouped.with_columns(
+        ((pl.col(weight_col+'_sum') / pl.col(
+        weight_col+'_sum').sum()).over(by_list)).alias('Proportion'))
+        dfp_grouped
+    
+        # It can be useful to express this proportion as a percentage
+        # as well.
+    
+        dfp_grouped = dfp_grouped.with_columns(
+        (pl.col('Proportion')*100).alias('Percentage'))
+
+    if col_suffix != '':
+        if add_suffix_to_dv == False:
+            suffix_free_cols = by_list + [dv]
+        else:
+            suffix_free_cols = by_list   
+        
+        # In some cases, it might be ideal to rename the dv as well
+        col_renaming_dict = {c:c+col_suffix if c not in suffix_free_cols else c 
+                for c in dfp_grouped.columns}
+        
+        dfp_grouped = dfp_grouped.rename(col_renaming_dict)
+        
+    dfp_grouped = dfp_grouped.sort(index)
+    
+    if convert_output_to_pandas == True:
+        return dfp_grouped.to_pandas()
+    else:
+        return dfp_grouped
+
+
+def survey_pivot(df, weight_col, analysis_method, by_list = [], 
+    dv = '', col_suffix = '', ones_col = ''):
+    '''Note: pl_survey_pivot, which is Polars-based, is a newer version
+    of this Pandas-based function. I recommend using the former (which
+    still allows you to export results to Pandas if desired) instead
+    of the latter. 
+    
+    This function uses the pivot_table() function within Pandas to
+    generate weighted survey estimates (but not confidence intervals or 
+    regression stats.
     
     analysis_method: Can be 'Total' (for generating weighted sums)
     or 'Proportion' (for generating weighted proportions). Other
@@ -248,6 +350,11 @@ def survey_pivot(df, weight_col, analysis_method, by_list = [],
      
     if analysis_method == 'Total':
         index = by_list
+        if dv!= '':
+            warnings.warn("WARNING: You've requested to calculate totals, but \
+your dv argument is not an empty string. The function will calculate \
+totals for each by-list combination only regardless of dv values. To \
+incorporate your dv into your totals, add it to by_list instead.")
 
     elif analysis_method == 'Proportion':
         index = by_list + [dv]
