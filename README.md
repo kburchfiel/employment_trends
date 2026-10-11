@@ -34,22 +34,9 @@ This IPUMS data is itself a derivative of Current Population Survey data. To lea
 
 ### To-Dos
 
-* **CRITICAL: Figure out why your R- and Python-based proportion calculations aren't lining up. (Consider creating similar calculations using 'vanilla' Pandas or Polars in order to see which set of existing proportions is wrong.)**
-
-* Update your R code to (1) allow results to be saved to your project folder and (2) specify whether to rerun analyses *or* load previously-saved results. (This will dramatically help speed up your program in the event that you don't need to rerun analyses.)
-
-* Add hovertemplate and custom_data code into functions for other charts that you'll be incorporating into your blog post.
-
-* Continue working on your R-based analyses in order to check your svy results. See whether setting the same tolerance options within both svy and R lets you results match up. 
-
-* Share your HTML-based results.
-
 * Update documentation for your function that creates HTML-based charts, as you're now treating margin_t and margin_b data differently than you did earlier.
  
-* Finish updating your HTML-based blog post, then try converting it (via pandoc) to a Markdown file in order to update your Wordpress article. (Also consider showing employment totals by age range in order to complement your employment-proportion graphs.)
-
-
-
+* Try converting your HTML blog post (via pandoc) to a Markdown file in order to update your Wordpress article. (Also consider showing employment totals by age range in order to complement your employment-proportion graphs.)
 
 * Use ACS1 data for recent years to:
 
