@@ -22,6 +22,32 @@ Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles, J. Robert Warren, Danie
 
 This IPUMS data is itself a derivative of Current Population Survey data. To learn more about this survey, visit https://www.census.gov/programs-surveys/cps.html .
 
+#### Obtaining a copy of the data
+
+Due to IPUMS's terms of use, I am not able to directly share the data file. However, you can recreate it using the following steps:
+
+1. Create an account within cps.ipums.org. (It's free.)
+2. Create a new dataset with the following variables. 
+    1. YEAR
+    1. MONTH
+    1. CPSID
+    1. CPSIDP
+    1. STATEFIP
+    1. COUNTY
+    1. PLACEFIPS
+    1. WTFINL
+    1. AGE
+    1. OCC2010
+    1. EMPSTAT
+
+    Note: My dataset also included the following variables, but I don't believe I ended up using them for the analysis--so you should be able to remove them in order to shrink your own file's size. (Some of them could prove useful for related analyses, though.)
+
+    SERIAL; HWTFINL; ASECFLAG; INDIVIDCC; FAMINC; PERNUM; CPSIDV; AGE; OCC; OCC1990; OCC1950; IND; UHRSWORKT; WHYUNEMP
+
+1. Within the sample-selection page, deselect all ASEC boxes; go to the 'BASIC MONTHLY' page; and select all samples for January 2010 through August 2026. (Feel free to add data for earlier and later months also; however, certain variables may have limited data for earlier time periods.)
+
+
+
 ## Relevant code files
 
 1. employment_data_prep.ipynb reformats, then performs some initial analyses, of employment data.
