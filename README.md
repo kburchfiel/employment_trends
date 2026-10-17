@@ -1,4 +1,4 @@
-## Employment Trends Dashboard [Work in progress]
+# Employment Trends Dashboard [Work in progress]
 
 By Ken Burchfiel
 
@@ -14,7 +14,7 @@ To create this dashboard dashboard, I first imported IPUMS CPS data (see below) 
 
 [Click here](https://kburchfiel3.wordpress.com/2026/09/22/cps-data-indicates-that-us-software-developer-employment-has-increased-since-2022/) to read view a blog post that discusses findings related to software-developer employment.
 
-### Data source
+## Data source
 
 The data within this dashboard was sourced from https://cps.ipums.org/ . Its citation is as follows:
 
@@ -22,7 +22,7 @@ Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles, J. Robert Warren, Danie
 
 This IPUMS data is itself a derivative of Current Population Survey data. To learn more about this survey, visit https://www.census.gov/programs-surveys/cps.html .
 
-#### Obtaining a copy of the data
+### Obtaining a copy of the data
 
 Due to IPUMS's terms of use, I am not able to directly share the data file. However, you can recreate it using the following steps:
 
@@ -58,7 +58,7 @@ Due to IPUMS's terms of use, I am not able to directly share the data file. Howe
 6. charting_functions.py contains relevant functions for creating static and interactive visualizations of data.
 7. survey_analysis_functions.py contains functions to help speed up data-analysis tasks.
 
-### To-Dos
+## To-Dos
 
 * Update documentation for your function that creates HTML-based charts, as you're now treating margin_t and margin_b data differently than you did earlier.
  
