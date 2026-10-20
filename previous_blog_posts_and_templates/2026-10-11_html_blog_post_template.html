@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--HTML file for blog post that also contains interactive, responsive charts  -->
+<!-- The initial structural code for this file came from
+https://jinja.palletsprojects.com/en/stable/templates/
+and https://getbootstrap.com/docs/5.2/getting-started/introduction/. 
+Another helpful resource for creating Jinja2 templates actually comes
+from the Plotly website itself:
+https://plotly.com/python/interactive-html-export/#inserting-plotly-output-into-html-using-a-jinja2-template -->-
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Employment Trends Blog Post</title>
+   <!-- Bootstrap: -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <!-- Linking to Jost font: -->
+    <!-- This code is based on:
+    https://developers.google.com/fonts/docs/getting_started-->
+<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Jost">
+<style>
+    body {font-family:'Jost', sans-serif; font-size:18px}
+    /* I find left-aligned text easier to read, though charts will remain
+    centered.*/
+    h1 {text-align: center; font-weight: bold;}
+    h2 {text-align: center; font-weight: bold; margin-top: 25px}
+    h3 {text-align: center; font-weight: bold; margin-top: 25px}
+    
+    p {text-align: start}
+    .chart_title {text-align: center}
+    .chart_annotation {text-align: left; font-size:14px; margin-top: 10px; margin-bottom: 100px}
+    /* .chart_contents {} */ 
+</style>
+    
+</head>
+<body>
+
+<!-- Layout code within <body> was based on:
+        https://getbootstrap.com/docs/4.0/layout/grid/ -->
+    <div class="container-md">
+        <div class="row">
+            <!-- m-auto keeps this div centered. -->
+            <div class="col-md-6 m-auto">
+                <h1>CPS data indicates that US software-developer employment has increased 
+since 2022</h1>
+
+<p>2026-10-06</p>
+                
+<p>By <a href="https://kburchfiel.github.io/">Ken Burchfiel</a></p>
+                
+<p>Released under the CC-BY license</p>
+
+<p><a href=https://kburchfiel.github.io/employment_trends/occ_dashboard.html>
+Corresponding interactive dashboard</a></p>
+<p><i>Note: I did not use generative-AI tools for any part of this 
+project, including research; coding and debugging; visualizations; 
+and this blog post.</i></p>
+<h2>Introduction and methodology</h2>
+<p>In order to assess whether software-developer employment has 
+been increasing or decreasing since ChatGPT was released in 2022, I 
+downloaded Current Population Survey data from IPUMS, then analyzed it 
+in Python using the <a href = 'https://svylab.com/docs/svy/'>svy</a> library. 
+(The CPS was also the survey of choice for <a href='https://www.wsj.com/economy/
+jobs/tech-has-never-caused-a-job-apocalypse-dont-bet-on-it-now-
+d192b579?mod=economy_lead_story'>a similar analysis</a> conducted by 
+James Bessen at Boston University; his work helped inspire 
+my own analysis project. My analysis focuses only on the 
+'Software developers, applications and system software' occupation 
+category, and not on other related fields, such as web developers and 
+computer programmers.</p>
+<p>The strata, PSUs, and weights that I used for my survey sample were based 
+on <a href = 'https://forum.ipums.org/t/calculating-standard-errors-
+using-cps-basic-monthly-microdata/6408/7'> guidance from Ivan Strahof at 
+IPUMS</a>, whose recommendations were in turn based 
+in part on <a href = 'https://journals.sagepub.com/doi/epdf/10.5034/
+inquiryjrnl_44.2.211'>a 2007 research paper by Michael Davern et al</a>. 
+(I may tweak my strata a bit in the future in order to divide Delaware 
+results by county; this tweak, however, should not change the substance 
+of my findings.)</p>
+<p>To see visualizations of my employment-total calculations not covered in 
+this blog post, visit <a href='https://kburchfiel.github.io/\
+employment_trends/occ_dashboard.html'> this interactive dashboard</a>. 
+Also, if you'd like to review and/or 
+repurpose the code that I used for this analysis, 
+you can find it <a href='https://github.com/kburchfiel/
+employment_trends'> within this GitHub project</a> (which I've released 
+under the MIT license).</p>
+<h2>Findings</h2>
+<h3>Yearly employment trends</h3>
+<p>
+My analyses indicate that software-developer employment has increased 
+from around 2 million in 2022 to over 2.5 million in 2026. (2026 data 
+is current through August.)</p>
+            </div></div>
+<!-- Including an HTML file that will then
+get added into this page when it gets rendered:
+(This was based on https://jinja.palletsprojects.com/en/stable/templates/#include 
+I'm making figure columns wider than text columns in order to allow more room for the visualization.
+Another option would be to use the same width for both elements--in which case there would be 
+no need to place these items within separate rows and columns.-->
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_employment_by_year_with_error_bars.html' %}
+</div></div>
+                
+<div class = "row">
+<div class="col-md-6 m-auto">
+<p>This chart displays 95% confidence intervals together with point estimates. 
+Note that the intervals for 2022 and 2026 do not overlap, meaning we can be 
+confident that the increase in employment over that time is 
+statistically significant.</p>
+<p>Note: As with <a href='https://kburchfiel.github.io/employment_trends/
+occ_dashboard.html'>my interactive dashboard</a>, you can can hover over 
+points on the charts within this blog post in order to view actual 
+confidence-interval and point-estimate values.)</p>
+<h3>Monthly employment trends</h3>
+<p>Since the CPS is normally administered each month, we can also 
+assess trends on a monthly level. These should be interpreted with caution, 
+as monthly confidence intervals will be larger than yearly ones. However, 
+the <i>upper</i> bound of the confidence interval for November 2022 (2,289,355) 
+within the following chart is still lower than the <i>lower</i> bound of the 
+August 2026 confidence interval (2,419,564).</p><p>As a result, we can conclude 
+that software-developer employment has increased from ChatGPT's 
+release <a href = 'https://en.wikipedia.org/wiki/ChatGPT'> on November 30, 
+2022</a> to August 2026.</p></div></div>
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_employment_by_year_and_month_with_error_bars.html' %}
+</div>
+</div>
+        
+<div class = "row">
+<div class="col-md-6 m-auto">
+<h3Yearly employment by age range</h3>
+<p>It's challenging to use CPS data to draw conclusions about employment 
+trends for a given occupation and age range, as the number of respondents 
+for a given month who fall into a particular age range/occupation group may
+be quite small. Nonetheless, I thought it would be interesting to compare 
+CPS estimates by age in order to see whether employment growth has been 
+particularly large or small for certain groups.</p>
+<p>Here's a look at the data. (The overlapping error bars make this chart 
+quite hard to read, but you can select a single age range by double-clicking on 
+its legend entry. In addition, clicking on an active entry will deselect
+it.)</p>
+</div>
+</div>
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_employment_by_year_and_age_range_with_error_bars.html' %}
+</div>
+</div>
+    
+<div class="row">
+    <div class="col-md-6 m-auto">
+<p>For two age ranges (30-34 and 40-44), the <i>lower</i> confidence interval of the 2026 estimate is higher than the <i>upper</i> confidence interval of the 2022 estimate, which indicates that these two age ranges have seen a significant increase in software-developer employment since 2022. For all other age ranges, we can't conclude that a significant increase <i>or</i> decrease has occurred.</p>
+<p>Here's a copy of the same chart that does not include error bars:</p>
+</div>
+</div>    
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_employment_by_year_and_age_range.html' %}
+</div></div>
+
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <h3>Assessing changes in the percentage of Americans who are 
+employed as software developers</h3>
+<p>Another way to evaluate software-development's growth is to estimate 
+the <i>percentage</i> of Americans who are employed as a developer. This 
+approach adjusts for growth in the US population; in addition, it allows 
+for logistic-regression tests that allow us to assess whether two 
+differences in proportions are statistically significant.</p>        
+<p>The average percentage of Americans employed as software developers for 
+January through August 2026 is 1.33%. This is significantly higher than the 
+percentage employed in each year from 2022 (when it was 1.14%) 
+through 2025.</p>
+    </div>
+</div> 
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/developer_employment_proportion_by_year_with_error_bars.html' %}
+</div></div>
+
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <p>The following chart compares estimated employment percentages by
+age range. In order to test these changes for statistical significance, I performed
+a logistic regression in which the 2026 data was compared to that for
+years 2022 onward. I found that, for four age ranges (30-34, 35-39, 40-44, and 
+55-59), the percenatge of Americans employed as software developers has increased
+significantly relative to 2022. In contrast, while the share of those aged 22-24
+who are employed as software developers grew markedly from 2010 to 2022, it
+has been relatively flat since then, suggesting that the job market has
+indeed been<a href = 'https://www.latimes.com/business/story/2026-09-24/computer-science-grads-face-brutal-job-market-as-ai-reshapes-entry-level-work'> more challenging for recent graduates</a>.
+        </p>
+    </div>
+</div>    
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/developer_employment_proportion_by_year_and_age_range_with_error_bars.html' %}
+</div></div>
+
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <p>The following chart is a copy of the previous one with the error
+bars removed.
+        </p>
+    </div>
+</div>    
+
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/developer_employment_proportion_by_year_and_age_range.html' %}
+</div></div>
+
+<div class="row">
+<div class="col-md-6 m-auto">
+<h3>What about unemployment rates?</h3>
+<p>Even if software-developer employment is growing, it's possible that 
+unemployment rates are growing as well. This would be the case if the 
+supply of potential software developers—i.e., due to <a href = "https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp">increased 
+numbers of computer/information-sciences graduates</a>—grows even faster
+than the demand for developers</p>
+</p>It's difficult to calculate reliable unemployment rates for software
+developers using CPS data, as both the percentage of respondents who are
+(or had been) employed developers, <i>and</i> the percentage of such
+respondents who are unemployed, are quite small. Nevertheless, here's
+what these unemployment-rate estimates look like:</p>
+</div>
+</div>    
+
+<div class = "row">
+<div class="col-md-8 m-auto">
+{% include 'Charts/software_developer_UE_rate_by_year_with_error_bars.html' %}
+</div></div>
+
+<div class="row">
+<div class="col-md-6 m-auto">
+<p>This chart indicates that unemployment for software 
+developers <i>is</i> higher now than in the pre-LLM era. Indeed, I found
+via a logistic regression that the 2026 unemployment rate is significantly 
+higher than that for 2015 through 2019; 2021; and 2022. However, it's also
+significantly <i>lower</i> than it had been in 2010, when the country was
+still emerging from the 2008 financial crisis.</p>
+<p>It's important to consider these unemployment statistics in the context 
+of other occupations, though. The estimated unemployment 
+rate for 2026 to date (around 3%) currently compares favorably to 
+<a href=https://www.bls.gov/charts/employment-situation/civilian-unemployment-rate.html>
+that for all civilians</a> (4.1% as of August 2026).</p>
+</div>
+</div>    
+        
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <h2>Conclusion</h2>
+        <p>These analyses suggest that the overall trend in 
+software-developer employment since 2022 has been positive, particularly 
+for those ages 30-34 and 40-44. This growth in employment, however, has
+coincided with an increase in the unemployment rate for developers. Thus,
+while we don't have evidence that LLMs have caused the total market for
+developers to shrink, this doesn't mean that finding a job as a developer
+is necessarily easy.<p>
+<p>It's also worth noting that the fact that the number of developers has
+increased in recent years <i>does not</i> prove that the introduction of 
+LLM tools hasn't negatively impacted developer employment. It's quite
+possible, that, without the availability of these tools, employment
+may have increased even more quickly. (See <a 
+href="https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/">
+this Stanford Digital Economy Lab page</a> for more details on 
+this hypothesis.)</p>
+<p>These analyses should be interpreted with caution, given that the CPS's
+sample size is somewhat limited. In the future, I hope to compare these 
+results to those generated via American Community Survey data. The ACS has 
+a <i>much</i> larger sample size, and thus can allow for more precise 
+estimates than those
+we can obtain through the CPS. However, as of October 2026, the latest
+data for which we have ACS data is 2024--which, given the changes in AI
+adoption since then, is too far in the past to be a useful comparison.
+Once ACS data for more recent years becomes available, I certainly hope
+to perform a similar analysis using those survey results.</p>
+<h2>References</h2>
+<p><b>IPUMS CPS citation:</b></p>
+<p><i>Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles, J. 
+Robert Warren, Daniel Backman, Etienne Breton, Grace Cooper, Julia A. 
+Rivera Drew, Stephanie Richards, David Van Riper. Integrated Public Use 
+Microdata Series, Current Population Survey: Version 13.0 [dataset]. 
+Minneapolis, MN: IPUMS, 2025. https://doi.org/10.18128/D030.V13.0</i></p>
+    </div>
+</div> 
+
+        
+        
+    </div>
+</body>
+        
+<!--  Templates for new paragraphs and headers:
+    
+Header: Replace 'h3' with 'h1', 'h2', etc. as needed
+    
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <h3></h3>
+    </div>
+</div> 
+
+Row:
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <p></p>
+    </div>
+</div>                
+-->
+
+
+
+

@@ -59,7 +59,9 @@
         // We could also identify these via code, but hardcoding them
         // might speed up load times a tiny bit.
         let age_range_array = [
-            'Under 22',
+            '21 or younger', // Replaced 'Under 22' with this value to allow
+            // the alphabetical and logical orders of these entries to match
+            // (which will make ordering legends easier)
             '22-24',
             '25-29',
             '30-34',
@@ -476,9 +478,9 @@ length minus 1", dash_options.length - 1, dash_value, "dash_index:",
                     // rather than including them within csv_data.js,
                     // helps reduce that file's size.
                         array: (df_comparison_val.map(
-                    (row) => row['uci_emp_total'] - row['Total_emp_total'])),
+                    (row) => row['uci'] - row['est'])),
                         arrayminus: (df_comparison_val.map(
-                    (row) => row['Total_emp_total'] - row['lci_emp_total']))};
+                    (row) => row['est'] - row['lci']))};
 
                 }
                     else
@@ -489,8 +491,8 @@ length minus 1", dash_options.length - 1, dash_value, "dash_index:",
                 // This setup was based on my County Growth Map project's
                 // county_growth_map.html file.
                 customdata = df_comparison_val.map((row) => [
-                row['lci_emp_total'].toString() + " to " 
-                + row['uci_emp_total'].toString()]);
+                row['lci'].toString() + " to " 
+                + row['uci'].toString()]);
 
                     console.log("Customdata", customdata);
 
@@ -499,7 +501,7 @@ length minus 1", dash_options.length - 1, dash_value, "dash_index:",
                         x: (df_comparison_val.map(
                             (row) => row['period_val'])),
                         y: (df_comparison_val.map(
-                            (row) => row['Total_emp_total'])),
+                            (row) => row['est'])),
                         customdata: customdata,
                         // Error-bar data:
                         // (This code is based on
@@ -512,7 +514,7 @@ length minus 1", dash_options.length - 1, dash_value, "dash_index:",
                         },
                         // Based on https://plotly.com/javascript/line-charts/
                         text: (df_comparison_val.map(
-                            (row) => row['Response_Count_emp_total'])),
+                            (row) => row['n'])),
                         // The hovertemplate code is based on:
                         // https://plotly.com/javascript/hover-text-and-formatting/
                         // and
@@ -546,12 +548,10 @@ response count: %{text}<extra></extra>'};
             let layout = {
                 height: 580,
                 showlegend: true,
-                // uirevision: 'true', 
+                uirevision: 'true', 
                 // Allows the user's zoom settings to persist across
                 // occupation selections. Based on 
                 // https://plotly.com/javascript/uirevision/
-                // (Ended up not using it for this project, though,
-                // so I'll comment it out for now.)
 
                 // The following legend updates, which allow the legend
                 // to appear horizontally above the map, are based on 

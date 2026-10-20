@@ -158,7 +158,7 @@ var full_occupation_options = `<option value="Accountants and auditors">(L) Acco
 <option value="Explosives workers, ordnance handling experts, and blasters">Explosives workers, ordnance handling experts, and blasters</option>
 <option value="Extruding and drawing machine setters, operators, and tenders, metal and plastic">Extruding and drawing machine setters, operators, and tenders, metal and plastic</option>
 <option value="Extruding, forming, pressing, and compacting machine setters, operators, and tenders">Extruding, forming, pressing, and compacting machine setters, operators, and tenders</option>
-<option value="Farmers, ranchers, and other agricultural managers">(L) Farmers, ranchers, and other agricultural managers</option>
+<option value="Farmers, ranchers, and other agricultural managers">Farmers, ranchers, and other agricultural managers</option>
 <option value="Fence erectors">Fence erectors</option>
 <option value="File clerks">File clerks</option>
 <option value="Financial analysts">Financial analysts</option>
@@ -209,7 +209,7 @@ var full_occupation_options = `<option value="Accountants and auditors">(L) Acco
 <option value="Hairdressers, hairstylists, and cosmetologists">Hairdressers, hairstylists, and cosmetologists</option>
 <option value="Hazardous materials removal workers">Hazardous materials removal workers</option>
 <option value="Health diagnosing and treating practitioners, all other">Health diagnosing and treating practitioners, all other</option>
-<option value="Health practitioner support technologists and  technicians">(L) Health practitioner support technologists and  technicians</option>
+<option value="Health practitioner support technologists and  technicians">Health practitioner support technologists and  technicians</option>
 <option value="Healthcare support workers, all other, including medical equipment preparers">Healthcare support workers, all other, including medical equipment preparers</option>
 <option value="Heating, air conditioning, and refrigeration mechanics and installers">Heating, air conditioning, and refrigeration mechanics and installers</option>
 <option value="Heavy vehicle and mobile equipment service technicians and mechanics">Heavy vehicle and mobile equipment service technicians and mechanics</option>
@@ -277,8 +277,8 @@ var full_occupation_options = `<option value="Accountants and auditors">(L) Acco
 <option value="Meter readers, utilities">Meter readers, utilities</option>
 <option value="Millwrights">Millwrights</option>
 <option value="Mining machine operators">Mining machine operators</option>
-<option value="Miscellaneous agricultural workers, including animal breeders">Miscellaneous agricultural workers, including animal breeders</option>
-<option value="Miscellaneous assemblers and fabricators">(L) Miscellaneous assemblers and fabricators</option>
+<option value="Miscellaneous agricultural workers, including animal breeders">(L) Miscellaneous agricultural workers, including animal breeders</option>
+<option value="Miscellaneous assemblers and fabricators">Miscellaneous assemblers and fabricators</option>
 <option value="Miscellaneous community and social service specialists, including health educators and community health workers">Miscellaneous community and social service specialists, including health educators and community health workers</option>
 <option value="Miscellaneous construction workers, including solar photovoltaic installers, septic tank servicers and sewer pipe cleaners">Miscellaneous construction workers, including solar photovoltaic installers, septic tank servicers and sewer pipe cleaners</option>
 <option value="Miscellaneous engineers, including nuclear engineers">Miscellaneous engineers, including nuclear engineers</option>
@@ -411,7 +411,7 @@ var full_occupation_options = `<option value="Accountants and auditors">(L) Acco
 <option value="Secretaries and administrative assistants">(L) Secretaries and administrative assistants</option>
 <option value="Securities, commodities, and financial services sales agents">Securities, commodities, and financial services sales agents</option>
 <option value="Security and fire alarm systems installers">Security and fire alarm systems installers</option>
-<option value="Security guards and gaming surveillance officers">(L) Security guards and gaming surveillance officers</option>
+<option value="Security guards and gaming surveillance officers">Security guards and gaming surveillance officers</option>
 <option value="Sewing machine operators">Sewing machine operators</option>
 <option value="Sheet metal workers">Sheet metal workers</option>
 <option value="Ship and boat captains and operators">Ship and boat captains and operators</option>
@@ -491,7 +491,6 @@ var large_occupation_options = `<option value="Accountants and auditors">(L) Acc
 <option value="Driver/sales workers and truck drivers">(L) Driver/sales workers and truck drivers</option>
 <option value="Electricians">(L) Electricians</option>
 <option value="Elementary and middle school teachers">(L) Elementary and middle school teachers</option>
-<option value="Farmers, ranchers, and other agricultural managers">(L) Farmers, ranchers, and other agricultural managers</option>
 <option value="Financial managers">(L) Financial managers</option>
 <option value="First-line supervisors of non-retail sales workers">(L) First-line supervisors of non-retail sales workers</option>
 <option value="First-line supervisors of office and administrative support workers">(L) First-line supervisors of office and administrative support workers</option>
@@ -500,14 +499,13 @@ var large_occupation_options = `<option value="Accountants and auditors">(L) Acc
 <option value="Food service managers">(L) Food service managers</option>
 <option value="General and operations managers">(L) General and operations managers</option>
 <option value="Grounds maintenance workers">(L) Grounds maintenance workers</option>
-<option value="Health practitioner support technologists and  technicians">(L) Health practitioner support technologists and  technicians</option>
 <option value="Janitors and building cleaners">(L) Janitors and building cleaners</option>
 <option value="Laborers and freight, stock, and material movers, hand">(L) Laborers and freight, stock, and material movers, hand</option>
 <option value="Lawyers, and judges, magistrates, and other judicial workers">(L) Lawyers, and judges, magistrates, and other judicial workers</option>
 <option value="Maids and housekeeping cleaners">(L) Maids and housekeeping cleaners</option>
 <option value="Management analysts">(L) Management analysts</option>
 <option value="Marketing and sales managers">(L) Marketing and sales managers</option>
-<option value="Miscellaneous assemblers and fabricators">(L) Miscellaneous assemblers and fabricators</option>
+<option value="Miscellaneous agricultural workers, including animal breeders">(L) Miscellaneous agricultural workers, including animal breeders</option>
 <option value="Miscellaneous managers, including funeral service managers and postmasters and mail superintendents">(L) Miscellaneous managers, including funeral service managers and postmasters and mail superintendents</option>
 <option value="Miscellaneous production workers, including semiconductor processors">(L) Miscellaneous production workers, including semiconductor processors</option>
 <option value="Nursing, psychiatric, and home health aides">(L) Nursing, psychiatric, and home health aides</option>
@@ -521,11 +519,10 @@ var large_occupation_options = `<option value="Accountants and auditors">(L) Acc
 <option value="Retail salespersons">(L) Retail salespersons</option>
 <option value="Sales representatives, wholesale and manufacturing">(L) Sales representatives, wholesale and manufacturing</option>
 <option value="Secretaries and administrative assistants">(L) Secretaries and administrative assistants</option>
-<option value="Security guards and gaming surveillance officers">(L) Security guards and gaming surveillance officers</option>
 <option value="Software developers, applications and systems software">(L) Software developers, applications and systems software</option>
 <option value="Stock clerks and order fillers">(L) Stock clerks and order fillers</option>
 <option value="Teacher assistants">(L) Teacher assistants</option>
 <option value="Waiters and waitresses">(L) Waiters and waitresses</option>
 `;
 
-var large_occupations = ['Accountants and auditors', 'Bookkeeping, accounting, and auditing clerks', 'Carpenters', 'Cashiers', 'Chief executives and legislators', 'Childcare workers', 'Combined food preparation and serving workers, including fast food', 'Computer occupations, all other', 'Construction laborers', 'Construction managers', 'Cooks', 'Counselors', 'Couriers and messengers', 'Customer service representatives', 'Driver/sales workers and truck drivers', 'Electricians', 'Elementary and middle school teachers', 'Farmers, ranchers, and other agricultural managers', 'Financial managers', 'First-line supervisors of non-retail sales workers', 'First-line supervisors of office and administrative support workers', 'First-line supervisors of retail sales workers', 'Food preparation workers', 'Food service managers', 'General and operations managers', 'Grounds maintenance workers', 'Health practitioner support technologists and  technicians', 'Janitors and building cleaners', 'Laborers and freight, stock, and material movers, hand', 'Lawyers, and judges, magistrates, and other judicial workers', 'Maids and housekeeping cleaners', 'Management analysts', 'Marketing and sales managers', 'Miscellaneous assemblers and fabricators', 'Miscellaneous managers, including funeral service managers and postmasters and mail superintendents', 'Miscellaneous production workers, including semiconductor processors', 'Nursing, psychiatric, and home health aides', 'Office clerks, general', 'Other teachers and instructors', 'Personal care aides', 'Physicians and surgeons', 'Real estate brokers and sales agents', 'Receptionists and information clerks', 'Registered nurses', 'Retail salespersons', 'Sales representatives, wholesale and manufacturing', 'Secretaries and administrative assistants', 'Security guards and gaming surveillance officers', 'Software developers, applications and systems software', 'Stock clerks and order fillers', 'Teacher assistants', 'Waiters and waitresses'];
+var large_occupations = ['Accountants and auditors', 'Bookkeeping, accounting, and auditing clerks', 'Carpenters', 'Cashiers', 'Chief executives and legislators', 'Childcare workers', 'Combined food preparation and serving workers, including fast food', 'Computer occupations, all other', 'Construction laborers', 'Construction managers', 'Cooks', 'Counselors', 'Couriers and messengers', 'Customer service representatives', 'Driver/sales workers and truck drivers', 'Electricians', 'Elementary and middle school teachers', 'Financial managers', 'First-line supervisors of non-retail sales workers', 'First-line supervisors of office and administrative support workers', 'First-line supervisors of retail sales workers', 'Food preparation workers', 'Food service managers', 'General and operations managers', 'Grounds maintenance workers', 'Janitors and building cleaners', 'Laborers and freight, stock, and material movers, hand', 'Lawyers, and judges, magistrates, and other judicial workers', 'Maids and housekeeping cleaners', 'Management analysts', 'Marketing and sales managers', 'Miscellaneous agricultural workers, including animal breeders', 'Miscellaneous managers, including funeral service managers and postmasters and mail superintendents', 'Miscellaneous production workers, including semiconductor processors', 'Nursing, psychiatric, and home health aides', 'Office clerks, general', 'Other teachers and instructors', 'Personal care aides', 'Physicians and surgeons', 'Real estate brokers and sales agents', 'Receptionists and information clerks', 'Registered nurses', 'Retail salespersons', 'Sales representatives, wholesale and manufacturing', 'Secretaries and administrative assistants', 'Software developers, applications and systems software', 'Stock clerks and order fillers', 'Teacher assistants', 'Waiters and waitresses'];

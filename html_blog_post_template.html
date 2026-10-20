@@ -32,7 +32,7 @@ https://plotly.com/python/interactive-html-export/#inserting-plotly-output-into-
     
     p {text-align: start}
     .chart_title {text-align: center}
-    .chart_annotation {text-align: left; font-size:14px; margin-top: 10px; margin-bottom: 100px}
+    .chart_annotation {text-align: left; font-size:14px; margin-top: 10px; margin-bottom: 50px}
     /* .chart_contents {} */ 
 </style>
     
@@ -48,7 +48,8 @@ https://plotly.com/python/interactive-html-export/#inserting-plotly-output-into-
                 <h1>CPS data indicates that US software-developer employment has increased 
 since 2022</h1>
 
-<p>2026-10-06</p>
+<p>First published on 2026-10-06</p>
+<p><b>Last updated on 2026-10-19 to incorporate CPS data up to 2026-09</b></p>
                 
 <p>By <a href="https://kburchfiel.github.io/">Ken Burchfiel</a></p>
                 
@@ -93,8 +94,8 @@ under the MIT license).</p>
 <h3>Yearly employment trends</h3>
 <p>
 My analyses indicate that software-developer employment has increased 
-from around 2 million in 2022 to over 2.5 million in 2026. (2026 data 
-is current through August.)</p>
+from around 2 million in 2022 to over 2.5 million in 2026. (The 
+2026 value is based on data from January to September.)</p>
             </div></div>
 <!-- Including an HTML file that will then
 get added into this page when it gets rendered:
@@ -120,13 +121,19 @@ confidence-interval and point-estimate values.)</p>
 <h3>Monthly employment trends</h3>
 <p>Since the CPS is normally administered each month, we can also 
 assess trends on a monthly level. These should be interpreted with caution, 
-as monthly confidence intervals will be larger than yearly ones. However, 
-the <i>upper</i> bound of the confidence interval for November 2022 (2,289,355) 
+as monthly confidence intervals will be larger than yearly ones.<p/> 
+    
+<p>When I first published this post, I noted: "The <i>upper</i> bound 
+of the confidence interval for November 2022 (2,289,355) 
 within the following chart is still lower than the <i>lower</i> bound of the 
-August 2026 confidence interval (2,419,564).</p><p>As a result, we can conclude 
-that software-developer employment has increased from ChatGPT's 
+August 2026 confidence interval (2,419,564). p>As a result, we can conclude 
+that software-developer employment increased from ChatGPT's 
 release <a href = 'https://en.wikipedia.org/wiki/ChatGPT'> on November 30, 
-2022</a> to August 2026.</p></div></div>
+2022</a> to August 2026."</p>
+<p><b>However</b>, due to a steep drop in the estimated total (and its 
+corresponding confidence interval) from August 
+to September 2026, we can't say the same for the 
+November 2022/September 2026 comparison.</p></div></div>
 <div class = "row">
 <div class="col-md-8 m-auto">
 {% include 'Charts/software_developer_employment_by_year_and_month_with_error_bars.html' %}
@@ -157,7 +164,12 @@ it.)</p>
     
 <div class="row">
     <div class="col-md-6 m-auto">
-<p>For two age ranges (30-34 and 40-44), the <i>lower</i> confidence interval of the 2026 estimate is higher than the <i>upper</i> confidence interval of the 2022 estimate, which indicates that these two age ranges have seen a significant increase in software-developer employment since 2022. For all other age ranges, we can't conclude that a significant increase <i>or</i> decrease has occurred.</p>
+<p>For the 40-44 age range, the <i>lower</i> confidence interval of 
+the 2026 estimate is higher than the <i>upper</i> confidence interval 
+of the 2022 estimate, which indicates that this age range has seen a 
+significant increase in software-developer employment since 2022. 
+For all other age ranges, we can't conclude that a significant 
+    increase <i>or</i> decrease has occurred.</p>
 <p>Here's a copy of the same chart that does not include error bars:</p>
 </div>
 </div>    
@@ -176,8 +188,9 @@ the <i>percentage</i> of Americans who are employed as a developer. This
 approach adjusts for growth in the US population; in addition, it allows 
 for logistic-regression tests that allow us to assess whether two 
 differences in proportions are statistically significant.</p>        
-<p>The average percentage of Americans employed as software developers for 
-January through August 2026 is 1.33%. This is significantly higher than the 
+<p>The average percentage of Americans employed as software 
+developers from January to September 2026 is 1.32%. 
+This is significantly higher than the 
 percentage employed in each year from 2022 (when it was 1.14%) 
 through 2025.</p>
     </div>
@@ -193,11 +206,12 @@ through 2025.</p>
         <p>The following chart compares estimated employment percentages by
 age range. In order to test these changes for statistical significance, I performed
 a logistic regression in which the 2026 data was compared to that for
-years 2022 onward. I found that, for four age ranges (30-34, 35-39, 40-44, and 
-55-59), the percenatge of Americans employed as software developers has increased
-significantly relative to 2022. In contrast, while the share of those aged 22-24
-who are employed as software developers grew markedly from 2010 to 2022, it
-has been relatively flat since then, suggesting that the job market has
+years 2022 onward. I found that, for three age ranges (30-34, 35-39, 
+and 40-44, the percenatge of Americans employed as software developers has increased
+significantly relative to 2022. In contrast, while the shares of those 
+aged 22-24 or 25-29 who are employed as software developers grew 
+markedly from 2010 to 2022, these shares have been relatively flat since 
+then, suggesting that the job market has
 indeed been<a href = 'https://www.latimes.com/business/story/2026-09-24/computer-science-grads-face-brutal-job-market-as-ai-reshapes-entry-level-work'> more challenging for recent graduates</a>.
         </p>
     </div>
@@ -248,14 +262,15 @@ what these unemployment-rate estimates look like:</p>
 <p>This chart indicates that unemployment for software 
 developers <i>is</i> higher now than in the pre-LLM era. Indeed, I found
 via a logistic regression that the 2026 unemployment rate is significantly 
-higher than that for 2015 through 2019; 2021; and 2022. However, it's also
+higher than that for 2015 through 2022 (save for 2020, whose spike in
+unemployment was undoubtedly COVID-related). However, it's also
 significantly <i>lower</i> than it had been in 2010, when the country was
 still emerging from the 2008 financial crisis.</p>
 <p>It's important to consider these unemployment statistics in the context 
 of other occupations, though. The estimated unemployment 
-rate for 2026 to date (around 3%) currently compares favorably to 
-<a href=https://www.bls.gov/charts/employment-situation/civilian-unemployment-rate.html>
-that for all civilians</a> (4.1% as of August 2026).</p>
+rate for 2026 to date (around 3.1%) currently compares favorably to 
+<a href=https://www.bls.gov/charts/employment-situation/civilian-unemployment-rate.htm>
+that for all civilians</a> (4.2% as of September 2026).</p>
 </div>
 </div>    
         
@@ -263,8 +278,10 @@ that for all civilians</a> (4.1% as of August 2026).</p>
     <div class="col-md-6 m-auto">
         <h2>Conclusion</h2>
         <p>These analyses suggest that the overall trend in 
-software-developer employment since 2022 has been positive, particularly 
-for those ages 30-34 and 40-44. This growth in employment, however, has
+software-developer employment since 2022 has been positive; this is 
+particularly the case, based on employment-proportion data,
+for those ages 30-44.
+This growth in employment, however, has
 coincided with an increase in the unemployment rate for developers. Thus,
 while we don't have evidence that LLMs have caused the total market for
 developers to shrink, this doesn't mean that finding a job as a developer
@@ -285,7 +302,7 @@ estimates than those
 we can obtain through the CPS. However, as of October 2026, the latest
 data for which we have ACS data is 2024--which, given the changes in AI
 adoption since then, is too far in the past to be a useful comparison.
-Once ACS data for more recent years becomes available, I certainly hope
+Once ACS data for more recent years becomes available, I hope
 to perform a similar analysis using those survey results.</p>
 <h2>References</h2>
 <p><b>IPUMS CPS citation:</b></p>

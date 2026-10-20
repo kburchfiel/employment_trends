@@ -7,6 +7,47 @@ import svy
 import numpy as np
 import polars as pl
 import warnings
+from polars_readstat import scan_readstat, ScanReadstat
+
+def import_stata_data(file_path, cols_to_convert_to_strings = []):
+    '''This function uses the polars_readstat library to import
+    stata data via Polars. It also allows selected columns to be
+    converted to strings, thus making those columns' meanings
+    clearer.
+    
+    This code is based in part on the polars_readstat documuentation
+    at: https://pypi.org/project/polars-readstat/'''
+    
+    # Reading in our Stata file's schema (which will make it easier to 
+    # replace codes for variables with their corresponding names):
+    
+    dfp_schema = ScanReadstat(file_path)
+    dfp_metadata = dfp_schema.metadata
+    
+    # Importing the dataset:
+    # Note: This line could be updated later on to allow
+    # only specific columns to be imported.
+    dfp = scan_readstat(file_path).collect()
+    print("The DataFrame is", len(dfp), "rows long.")
+    
+    # Converting specified columns to strings:
+    
+    for col in cols_to_convert_to_strings:
+    
+        # Retrieving the occupations that correspond to each occupation
+        # code:
+        col_label_dict = [v for v in dfp_metadata['variables'] 
+        if v['name'] == col][0]['value_labels']
+        # occ2010_label_dict
+        
+        # Renaming this column, then creating a copy that shows strings
+        # in place of codes:
+        
+        dfp = dfp.rename({col:col+'_code'}).with_columns(
+        (pl.col(col+'_code').cast(
+        pl.String).replace(col_label_dict)).alias(col))
+    
+    return dfp
 
 def perform_svy_analysis(sample, y, analysis_type, by = [], where = None, 
     col_suffix = '', return_as_pandas = False):
@@ -71,6 +112,8 @@ the same values will work well for both total- and prop-type analyses.)
         # https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.cast.html
     
 
+    # return df_estimates
+    
     # Specifying lengths for upper and lower error bars: (This will make it
     # easier to add confidence intervals to charts.)
     df_estimates = df_estimates.with_columns(
@@ -78,34 +121,38 @@ the same values will work well for both total- and prop-type analyses.)
     (pl.col('est') - pl.col('lci')).alias("error_lower"))
     # Based on: https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.with_columns.html
     # Creating percentage versions of certain columns for easier readability:
-    for c in ['est', 'se', 'lci', 'uci', 'error_upper', 'error_lower']:
-        df_estimates = df_estimates.with_columns((pl.col(c) * 100).alias(c+'_as_pct'))
-    
-    # Determining the number of unweighted respondent counts with a 
-    # valid y value:
+    if analysis_type == 'prop':
+        for c in ['est', 'se', 'lci', 'uci', 'error_upper', 'error_lower']:
+            df_estimates = df_estimates.with_columns(
+                (pl.col(c) * 100).alias(c+'_as_pct'))
+
+
+
+    # Determining the number of unweighted respondents with a 
+    # valid y value who are present within a given proportion
+    # category:
     # Note the use of filter_records() to trim out 
     # results that won't be present within our analysis. ('where' should
     # be used to filter records within actual svy analyses rather
     # than 'filter_records', as it's important for all records to be
     # passed to the analysis function so that accurate confidence intervals
-    # can be created.
-    # NOTE: I added the (analysis_type == 'prop') condition because,
-    # in that case, we'll still want to run a pivot-table
-    # call even if 'by' is an empty list so that respondent counts for 
-    # each distinct dependent-variable value can get calculated. (In this
-    # case, [y] will be pivot_table()'s index field. 
-    # However, I haven't yet tested out this change--
-    # so do make sure that it works!
+    # can be created.{
+    # NOTE: I added the (analysis_type == 'prop') condition because
+    # svy was updated in October 2027 to provide 'n' values 
+    # automatically, thus making these calculations unnecessary
+    # for most analysis types. However, these n values show the 
+    # number of respondents for all proportion values rather than 
+    # the number that match a certain value. The following code
+    # will determine the number of respondents on which each
+    # proportion estimate is based, which may prove helpful
+    # in some cases.
     
-    if (by != []) | (analysis_type == 'prop'):
+    if analysis_type == 'prop':
 
         # Specifying parameters for the response-counts pivot table:
         # The default values here will be ideal when the analysis
         # type is 'total'.
-        group_cols = [pl.col(by_entry) for by_entry in by]
-
-        if analysis_type == 'prop':
-            group_cols += [pl.col(y)]
+        group_cols = [pl.col(by_entry) for by_entry in by] + [pl.col(y)]
             
 
         # print("group_cols:", group_cols)
@@ -129,45 +176,37 @@ the same values will work well for both total- and prop-type analyses.)
         
         df_unweighted_counts = sample.wrangling.filter_records(
         where).data.group_by(
-        group_cols).len(name="Response_Count")
+        group_cols).len(name="prop_val_n")
         
 
         if y in df_unweighted_counts.columns:
             df_unweighted_counts = df_unweighted_counts.cast({y:pl.String}) 
 
         # Merging our estimate and count tables together:
-        df_estimates_and_counts = df_estimates.join(
+        df_estimates = df_estimates.join(
         df_unweighted_counts, on = group_cols, how = 'left')
-        df_estimates_and_counts
-
-    else: # Since there's nothing to pivot the DataFrame by, 
-        # we should simply count the number of DV entries
-        # within the filtered sample.
-
-        df_estimates_and_counts = df_estimates_and_counts.with_cols(
-        sample.wrangling.filter_records(
-        where).data[y].len()).alias("Response_Count")
-
-    # If a given response (within a proportion analysis) had 0 entries,
-    # it will probably have a missing Response_Count entry--which the
-    # following code will replace with a 0.
-
-    df_estimates_and_counts = df_estimates_and_counts.with_columns(
-    pl.col('Response_Count').fill_null(0))
+        
+        # If a given response (within a proportion analysis) had 0 entries,
+        # it will probably have a missing Response_Count entry--which the
+        # following code will replace with a 0.
+    
+        df_estimates = df_estimates.with_columns(
+        pl.col('prop_val_n').fill_null(0))
     
     # Adding suffixes: (We won't want to add these to our 'by' values
     # since that could interfere with any subsequent merge operations.)
     if col_suffix != '':
         col_renaming_dict = {c:c+col_suffix if c not in by else c 
-        for c in df_estimates_and_counts.columns}
+        for c in df_estimates.columns}
         
-        df_estimates_and_counts = df_estimates_and_counts.rename(
+        df_estimates = df_estimates.rename(
         col_renaming_dict)
 
     if return_as_pandas == True:
-        return df_estimates_and_counts.to_pandas()
+        return df_estimates.to_pandas()
     else:
-        return df_estimates_and_counts
+        return df_estimates
+
 
 def create_svy_reg(
     sample, y, x_list, regression_type = 'logistic', where = [],
@@ -306,11 +345,19 @@ def pl_survey_pivot(dfp, weight_col, analysis_method,
         dfp_grouped = dfp_grouped.rename(col_renaming_dict)
         
     dfp_grouped = dfp_grouped.sort(index)
+
+    # Renaming output fields:
+    # (This code works well for Total and Proportion
+    # analyses, but may need to be modified or skipped for
+    # other analysis types, such as mean/median calculations.)
+    dfp_grouped = dfp_grouped.rename(
+    {weight_col+'_sum':'Total', weight_col+'_count':'Count'})
     
     if convert_output_to_pandas == True:
         return dfp_grouped.to_pandas()
     else:
         return dfp_grouped
+
 
 
 def survey_pivot(df, weight_col, analysis_method, by_list = [], 
@@ -367,7 +414,7 @@ been implemented within this function.")
     values = [weight_col, ones_col], 
     aggfunc = 'sum').reset_index()
     
-    df_pivot.rename(columns = {ones_col:'Response_Count',
+    df_pivot.rename(columns = {ones_col:'n',
     weight_col:'Total'}, inplace = True)
     
     if analysis_method == 'Proportion':
