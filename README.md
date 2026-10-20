@@ -1,4 +1,4 @@
-# Employment Trends Dashboard [Work in progress]
+# Employment Trends Dashboard
 
 By Ken Burchfiel
 
@@ -12,7 +12,7 @@ Released under the MIT License
 
 To create this dashboard dashboard, I first imported IPUMS CPS data (see below) into Python; created pivot tables that store monthly employment totals (either by age range or by all ages together); and then exported these tables to JavaScript files that get read by the dashboard's main HTML file.
 
-[Click here](https://kburchfiel3.wordpress.com/2026/09/22/cps-data-indicates-that-us-software-developer-employment-has-increased-since-2022/) to read view a blog post that discusses findings related to software-developer employment.
+[Click here](https://kburchfiel.github.io/employment_trends/rendered_html_blog_post.html) to read view a blog post that discusses findings related to software-developer employment.
 
 ## Data source
 
@@ -60,6 +60,8 @@ Due to IPUMS's terms of use, I am not able to directly share the data file. Howe
 
 ## To-Dos
 
+* Continue updating the dashboard (and, at least occasionally, the blog post) to incorporate new CPS data as it becomes available.
+
 * Update documentation for your function that creates HTML-based charts, as you're now treating margin_t and margin_b data differently than you did earlier.
  
 * Try converting your HTML blog post (via pandoc) to a Markdown file in order to update your Wordpress article. (Also consider showing employment totals by age range in order to complement your employment-proportion graphs.)
@@ -79,6 +81,4 @@ Due to IPUMS's terms of use, I am not able to directly share the data file. Howe
 * Add a search box to your occupation dropdown list to make it easier to find certain occupations--or point individuals to the JavaScript file that contains these options. (See https://stackoverflow.com/questions/14148538/multiple-selections-with-datalist for reference.) Consider replacing your existing select-menu code with a JavaScript-based approach that would better facilitate searching.
 
 * Consider adding unemployment data into your dashboard as well--as long as the files aren't too large. This will involve (1) adding the data to your existing CSV file (probably via a horizontal merge), and (2) adding a metric-selection option.
-
-* Figure out how to add thousands separators to confidence-interval data within tooltips.
 
