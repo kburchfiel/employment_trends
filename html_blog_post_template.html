@@ -69,9 +69,15 @@ in Python using the <a href = 'https://svylab.com/docs/svy/'>svy</a> library.
 jobs/tech-has-never-caused-a-job-apocalypse-dont-bet-on-it-now-
 d192b579?mod=economy_lead_story'>a similar analysis</a> conducted by 
 James Bessen at Boston University; his work helped inspire 
-my own analysis project. My analysis focuses only on the 
-'Software developers, applications and system software' occupation 
-category, and not on other related fields, such as web developers and 
+my own analysis project.)</p>
+<p>While 
+<a href="https://www.census.gov/programs-surveys/cps/technical-documentation/methodology.html">
+those in the Armed Forces and institutions like nursing homes<a> aren't 
+eligilbe to take the CPS, I don't expect that that limitation 
+significantly affects my findings here. It's also worth noting that 
+my analysis focuses only on the 'Software developers, applications 
+and system software' occupation category within the IPUMS dataset--and 
+not on other related fields, such as web developers and 
 computer programmers.</p>
 <p>The strata, PSUs, and weights that I used for my survey sample were based 
 on <a href = 'https://forum.ipums.org/t/calculating-standard-errors-
@@ -126,14 +132,18 @@ as monthly confidence intervals will be larger than yearly ones.<p/>
 <p>When I first published this post, I noted: "The <i>upper</i> bound 
 of the confidence interval for November 2022 (2,289,355) 
 within the following chart is still lower than the <i>lower</i> bound of the 
-August 2026 confidence interval (2,419,564). p>As a result, we can conclude 
+August 2026 confidence interval (2,419,564). As a result, we can conclude 
 that software-developer employment increased from ChatGPT's 
 release <a href = 'https://en.wikipedia.org/wiki/ChatGPT'> on November 30, 
 2022</a> to August 2026."</p>
 <p><b>However</b>, due to a steep drop in the estimated total (and its 
 corresponding confidence interval) from August 
 to September 2026, we can't say the same for the 
-November 2022/September 2026 comparison.</p></div></div>
+November 2022/September 2026 comparison. (In general, differences 
+between estimates with overlapping confidence intervals aren't 
+necessarily insignificant; however, I also found, via a logistic 
+regression, that the <i>proportion</i> of Americans employed as
+developers did not increase significantly between these two months.)</p></div></div>
 <div class = "row">
 <div class="col-md-8 m-auto">
 {% include 'Charts/software_developer_employment_by_year_and_month_with_error_bars.html' %}
@@ -241,8 +251,8 @@ bars removed.
 <h3>What about unemployment rates?</h3>
 <p>Even if software-developer employment is growing, it's possible that 
 unemployment rates are growing as well. This would be the case if the 
-supply of potential software developers—i.e., due to <a href = "https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp">increased 
-numbers of computer/information-sciences graduates</a>—grows even faster
+supply of potential software developers--i.e., due to <a href = "https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp">increased 
+numbers of computer/information-sciences graduates</a>--grows even faster
 than the demand for developers</p>
 </p>It's difficult to calculate reliable unemployment rates for software
 developers using CPS data, as both the percentage of respondents who are
