@@ -44,7 +44,7 @@ Due to IPUMS's terms of use, I am not able to directly share the data file. Howe
 
     SERIAL; HWTFINL; ASECFLAG; INDIVIDCC; FAMINC; PERNUM; CPSIDV; AGE; OCC; OCC1990; OCC1950; IND; UHRSWORKT; WHYUNEMP
 
-1. Within the sample-selection page, deselect all ASEC boxes; go to the 'BASIC MONTHLY' page; and select all samples for January 2010 through August 2026. (Feel free to add data for earlier and later months also; however, certain variables may have limited data for earlier time periods.)
+1. Within the sample-selection page, deselect all ASEC boxes; go to the 'BASIC MONTHLY' page; and select all samples for January 2010 through September 2026. (Feel free to add data for earlier and later months also; however, certain variables may have limited data for earlier time periods.)
 
 
 
